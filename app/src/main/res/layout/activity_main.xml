@@ -2,17 +2,118 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Fecha"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#61812538"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/historial"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/diario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/hit" />
+
     <TextView
+        android:id="@+id/diariotext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        android:text="Diario"
+        android:textColor="#ED2EB7"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/diario"
+        app:layout_constraintTop_toBottomOf="@+id/Historialtext"
+        app:layout_constraintVertical_bias="0.583" />
+
+    <TextView
+        android:id="@+id/Nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoText="false"
+        android:text="FITHEALTH"
+        android:textColor="#E42D6B"
+        android:textColorLink="#D13F70"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/Historialtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="132dp"
+        android:text="Historial"
+        android:textColor="#ED2EB7"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toEndOf="@+id/historial"
+        app:layout_constraintTop_toBottomOf="@+id/userimage" />
+
+    <ImageButton
+        android:id="@+id/diario"
+        android:layout_width="140dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/comida" />
+
+    <ImageButton
+        android:id="@+id/userimage"
+        android:layout_width="128dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/user"
+        android:src="@drawable/user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Nombre"
+        tools:srcCompat="@drawable/user" />
+
+    <TextView
+        android:id="@+id/fecha"
+        android:layout_width="148dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="72dp"
+        android:text="TextView"
+        android:textColor="#DF30C8"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/historial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editcalorias"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/editcalorias"
+        android:layout_width="157dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Calorias "
+        app:layout_constraintEnd_toStartOf="@+id/userimage"
+        app:layout_constraintHorizontal_bias="0.366"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Nombre" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

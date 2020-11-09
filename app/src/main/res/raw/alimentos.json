@@ -1,0 +1,84 @@
+[
+{
+  "nombreprod": "Manzana",
+  "unidad": "g",
+  "cantidad": 100,
+  "calorias": 60
+},
+{
+"nombreprod": "Pera",
+"unidad": "g",
+"cantidad": 100,
+"calorias": 61
+},
+{
+"nombreprod": "Platano",
+"unidad": "g",
+"cantidad": 100,
+"calorias": 84
+},
+{
+"nombreprod": "Sandia",
+"unidad": "g",
+"cantidad": 100,
+"calorias": 30
+},
+{
+"nombreprod": "Mango",
+"unidad": "g",
+"cantidad": 50,
+"calorias": 60
+},
+{
+    "nombreprod": "Almendra",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 620
+  },
+{    "nombreprod": "Nueces",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 660
+},
+{
+    "nombreprod": "Leche",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 72
+},
+{
+    "nombreprod": "Huevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 160
+},
+{
+    "nombreprod": "Galletas",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 524
+},
+{
+    "nombreprod": "Macarrones a la bechamel",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 450
+},
+{
+    "nombreprod": "Pizza",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 280
+},
+{
+    "nombreprod": "Garbanzos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 800
+  }
+]
+
+
+
+
+
