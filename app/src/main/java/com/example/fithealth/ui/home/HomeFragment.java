@@ -15,15 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fithealth.MyAdapter;
 import com.example.fithealth.R;
-import com.example.fithealth.model.Alimentos;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements MyAdapter.OnListInteractionListener {
 
@@ -44,7 +37,33 @@ public class HomeFragment extends Fragment implements MyAdapter.OnListInteractio
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MyAdapter(new ArrayList<>(),this);
+            AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable(alimentos -> mAdapter.swap(alimentos)));
+recyclerView.setAdapter(mAdapter);
 
+        /*
+
+
+        service.getAlimentos("region").enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+                List<Food> alimentos = response.body();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.swap(alimentos);
+                    }
+                });
+
+            }
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        */
+
+/*
         List<Alimentos> aliments;
         com.google.gson.stream.JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.alimentos)));
         try {
@@ -61,7 +80,7 @@ public class HomeFragment extends Fragment implements MyAdapter.OnListInteractio
         recyclerView.setAdapter(mAdapter);
 
 
-/*
+
             Spinner spinner = (Spinner) root.findViewById(R.id.spinner2);
         String[] valores = {"uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, valores);
