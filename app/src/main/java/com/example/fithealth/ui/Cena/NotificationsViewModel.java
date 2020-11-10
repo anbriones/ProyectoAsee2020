@@ -1,4 +1,4 @@
-package com.example.fithealth.ui.notifications;
+package com.example.fithealth.ui.Cena;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,7 +1,8 @@
-package com.example.fithealth.ui.home;
+package com.example.fithealth.ui.Desayuno;
 
 
-import com.example.fithealth.Food;
+import com.example.fithealth.model.Alimentos;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -26,9 +27,9 @@ public class AlimentosNetworkLoaderRunnable implements Runnable{
         AlimentosService service = retrofit.create(AlimentosService.class);
 
         try {
-            List<Food> aliments = service.getAlimentos().execute().body();
+            Alimentos aliments = service.getAlimentos("burger","us","$summary,mass").execute().body();
             //Llamada sincrona para poder hacer varias llamadas y usar datos de la llamada anterior
-            AppExecutors.getInstance().mainThread().execute(() -> mOnFoodLoadedListener.onReposLoaded(aliments));
+            AppExecutors.getInstance().mainThread().execute(() -> mOnFoodLoadedListener.onReposLoaded(aliments.getFoods()));
 
         } catch (IOException e) {
             e.printStackTrace();

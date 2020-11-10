@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/desayuno"
-        android:name="com.example.fithealth.ui.home.HomeFragment"
+        android:name="com.example.fithealth.ui.Desayuno.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/comida"
-        android:name="com.example.fithealth.ui.dashboard.DashboardFragment"
+        android:name="com.example.fithealth.ui.Comida.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/cena"
-        android:name="com.example.fithealth.ui.notifications.NotificationsFragment"
+        android:name="com.example.fithealth.ui.Cena.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

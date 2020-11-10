@@ -1,35 +1,33 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/fondo">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="@string/datos">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="Nombre"
+            app:title="@string/nombre"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+            app:entries="@array/Edad"
+            app:entryValues="@array/Edad"
+            app:key="Edad"
+            app:title="Edad"
             app:useSimpleSummaryProvider="true" />
 
-    </PreferenceCategory>
+        <EditTextPreference
+            app:key="Altura"
+            app:title="@string/altura"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="Peso"
+            app:title="@string/peso"
+            app:useSimpleSummaryProvider="true" />
 
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
 
     </PreferenceCategory>
+
 
 </PreferenceScreen>

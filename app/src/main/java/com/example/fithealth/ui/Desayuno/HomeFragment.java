@@ -1,4 +1,4 @@
-package com.example.fithealth.ui.home;
+package com.example.fithealth.ui.Desayuno;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment implements MyAdapter.OnListInteractio
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyAdapter(new ArrayList<>(),this);
             AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable(alimentos -> mAdapter.swap(alimentos)));
-recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
 
         /*
 

@@ -1,5 +1,6 @@
 package com.example.fithealth;
 
+import android.icu.text.Transliterator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,16 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.fithealth.database.Alimento;
+import com.example.fithealth.model.Alimentos;
+import com.example.fithealth.model.Food;
+
+
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private List<Food> mDataset;
-
+    private List<Alimentos> mDataset;
+    private List<Food> mComidas;//Para guardar la lista de comidas que contiene cada posicion de la lista de alimentos
     public interface OnListInteractionListener{
         public void onListInteraction(String nombre);
     }
@@ -28,20 +34,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView mTextView;
         public View mView;
         public Spinner mspinner;
-
-        public Food mItem;
+        public Alimentos mItem;
 
         public MyViewHolder(View v) {
             super(v);
             mView=v;
             mTextView = v.findViewById(R.id.prod);
-            mspinner= v.findViewById(R.id.spinner2);
+           // mspinner= v.findViewById(R.id.spinner2);
 
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<Food> myDataset, OnListInteractionListener listener) {
+    public MyAdapter(List<Alimentos> myDataset, OnListInteractionListener listener) {
         mDataset = myDataset;
         mListener = listener;
     }
@@ -61,7 +66,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.mItem = mDataset.get(position);
-       holder.mTextView.setText(mDataset.get(position).getName());
+       holder.mTextView.setText(mDataset.get(position).getFoods().toString());
+
       /*  ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,mDataset );
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         holder.mspinner.setAdapter(adapter);
@@ -87,7 +93,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListInteraction(holder.mItem.getName());
+                    mListener.onListInteraction(holder.mItem.getFoods().get(position).getName());
                 }
             }
         });
@@ -100,7 +106,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return mDataset.size();
     }
 
-    public void swap(List<Food> dataset){
+    public void swap(List<Alimentos> dataset){
         mDataset = dataset;
         notifyDataSetChanged();
     }
