@@ -1,4 +1,4 @@
-package com.example.fithealth.ui.Cena;
+package com.example.fithealth.ui.notifications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

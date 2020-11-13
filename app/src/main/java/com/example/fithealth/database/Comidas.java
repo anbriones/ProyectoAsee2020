@@ -1,6 +1,7 @@
 package com.example.fithealth.database;
 
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -21,7 +22,7 @@ public class Comidas {
         this.alimentos = alimentos;
     }
 
-    public enum Tipo{Desayuno,Comida,Merienda,Cena};
+    public enum Tipo{Desayuno,Comida,Cena};
 
     @Ignore
     public final static String ID = "id_comida";
@@ -40,6 +41,7 @@ public class Comidas {
     private Date fecha=new Date();
     @TypeConverters(ListasConverter.class)
     private final List<Alimento> alimentos;
+
 
     public List<Alimento> getAlimentos() {
         return alimentos;

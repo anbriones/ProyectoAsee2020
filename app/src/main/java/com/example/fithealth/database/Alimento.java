@@ -20,27 +20,35 @@ public class Alimento {
     public final static String GRAMOS ="gramos";
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private Integer id;
     @ColumnInfo(name="nombre")
     private String nombre;
     @ColumnInfo(name="calorias")
-    private long calorias;
+    private Integer calorias;
     @ColumnInfo(name="gramos")
-    private long gramos;
+    private Integer gramos;
+    @ColumnInfo(name="unidad")
+    private String unidad;
 
-    public long getGramos() {
+    public Alimento(String nombre, Integer calorias,Integer gramos, String unidad){
+        this.nombre=nombre;
+        this.gramos=gramos;
+        this.calorias=calorias;
+        this.unidad=unidad;
+    }
+    public Integer getGramos() {
         return gramos;
     }
 
-    public void setGramos(long gramos) {
+    public void setGramos(Integer gramos) {
         this.gramos = gramos;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,12 +60,20 @@ public class Alimento {
         this.nombre = nombre;
     }
 
-    public long getCalorias() {
+    public Integer getCalorias() {
         return calorias;
     }
 
-    public void setCalorias(long calorias) {
+    public void setCalorias(Integer calorias) {
         this.calorias = calorias;
+    }
+
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String nombre) {
+        this.unidad = unidad;
     }
 }
 

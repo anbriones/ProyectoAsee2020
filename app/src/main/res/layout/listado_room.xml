@@ -15,11 +15,10 @@
         <TextView
             android:id="@+id/prod"
             android:layout_width="139dp"
-            android:layout_height="40dp"
+            android:layout_height="54dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/calorias"
             app:layout_constraintHorizontal_bias="0.0"
@@ -30,7 +29,7 @@
         <TextView
             android:id="@+id/calorias"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="54dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +40,7 @@
         <EditText
             android:id="@+id/cantidad"
             android:layout_width="44dp"
-            android:layout_height="40dp"
+            android:layout_height="54dp"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
             android:ems="10"
@@ -54,7 +53,7 @@
         <TextView
             android:id="@+id/unidad"
             android:layout_width="20dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             app:layout_constraintBottom_toBottomOf="parent"

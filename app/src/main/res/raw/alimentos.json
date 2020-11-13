@@ -75,7 +75,21 @@
     "unidad": "g",
     "cantidad": 100,
     "calorias": 800
-  }
+  },
+    {
+        "nombreprod": "Lentejas",
+        "unidad": "g",
+        "cantidad": 100,
+        "calorias": 353
+    },
+    {
+        "nombreprod": "Yogur",
+        "unidad": "g",
+        "cantidad": 100,
+        "calorias": 61
+    }
+
+
 ]
 
 
