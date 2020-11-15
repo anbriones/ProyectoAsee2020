@@ -86,6 +86,9 @@ public class HomeFragment extends Fragment implements MyAdapterDesayuno.OnListIn
         recyclerView2.setAdapter(mAdapter2);
         //Al ser un singleton solo se le llama una vez
         AlimentosDataBase.getInstance(this.getActivity());
+
+
+
         return root;
     }
 
@@ -100,7 +103,13 @@ public class HomeFragment extends Fragment implements MyAdapterDesayuno.OnListIn
             public void run() {
                 AlimentosDataBase.getInstance(getActivity()).daoAlim().addalimento(aliment);
                 getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
+                final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("desayuno");
+                if (calories != 0) {
+                    TextView text = getActivity().findViewById(R.id.total);
+                    getActivity().runOnUiThread(() -> text.setText(calories.toString()));
+                }
             }
+
         });
         }
 
@@ -111,19 +120,27 @@ public class HomeFragment extends Fragment implements MyAdapterDesayuno.OnListIn
     public void onResume() {
         new ViewModelProvider(this).get(HomeViewModel.class);
         super.onResume();
-        if (mAdapter2.getItemCount() == 0) {
+        if (mAdapter2.getItemCount() == 0)
             loadAlimentos();
-                   }
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-        final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("desayuno");
-        TextView text=getActivity().findViewById(R.id.total);
-        getActivity().runOnUiThread(()-> text.setText(calories.toString()));
-            }
-        });
 
+        if (mAdapter2.getItemCount() == 0){
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("desayuno");
+                    if (calories != null) {
+                        TextView text = getActivity().findViewById(R.id.total);
+                        getActivity().runOnUiThread(() -> text.setText(calories.toString()));
+                    }
+                }
+            });
+
+        }
     }
+
+
+
+
 
 
     @Override

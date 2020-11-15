@@ -1,19 +1,25 @@
 package com.example.fithealth.ui.comida;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
+
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fithealth.AdapterBAseDatosCena;
 
-import com.example.fithealth.AdapterBaseDatosComida;
+
+import com.example.fithealth.MyAdapterCena;
 
 import com.example.fithealth.MyAdapterComida;
 import com.example.fithealth.R;
@@ -21,6 +27,7 @@ import com.example.fithealth.database.Alimento;
 import com.example.fithealth.database.AlimentosDataBase;
 import com.example.fithealth.model.AlimentosAna;
 import com.example.fithealth.ui.Desayuno.AppExecutors;
+
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -38,16 +45,17 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
 
 
 
+
     private RecyclerView recyclerView;
-    private MyAdapterComida mAdapter;
+    private MyAdapterCena mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private AdapterBaseDatosComida mAdapter2;
+    private AdapterBAseDatosCena mAdapter2;
     private RecyclerView recyclerView2;
     private RecyclerView.LayoutManager layoutManager2;
 
     private static final int ADD_TODO_ITEM_REQUEST = 0;
-    private Object Date;
+    private Date date;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +81,7 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
             }
         }
 
-        mAdapter = new MyAdapterComida(aliments, this::onListInteraction);
+        mAdapter = new MyAdapterCena(aliments, this::onListInteraction);
         recyclerView.setAdapter(mAdapter);
 
 
@@ -82,11 +90,13 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
         recyclerView2.setHasFixedSize(true);
         layoutManager2 = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView2.setLayoutManager(layoutManager2);
-        mAdapter2=new AdapterBaseDatosComida(getActivity());
+        mAdapter2=new AdapterBAseDatosCena(getActivity());
 
         recyclerView2.setAdapter(mAdapter2);
         //Al ser un singleton solo se le llama una vez
         AlimentosDataBase.getInstance(this.getActivity());
+
+
 
         return root;
     }
@@ -95,49 +105,67 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
     @Override
     public void onListInteraction(String nombre, Integer calorias, Integer cantidad, String unidad) {
         Calendar calendar = Calendar.getInstance();
+        date = new Date();
+        date = new Date(date.getTime());
+
         Alimento.Tipo tipo= Alimento.Tipo.valueOf("comida");
-        Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad,tipo, Calendar.getInstance().getTime());
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                AlimentosDataBase.getInstance(getActivity()).daoAlim().addalimento(aliment);
-                getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
 
-            }
-        });
+        Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad,tipo,date);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mAdapter2.getItemCount() == 0)
-            loadAlimentos();
+        aliment.setTipo(Alimento.Tipo.comida);
+        aliment.setDate((Date)Calendar.getInstance().getTime());
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
+                AlimentosDataBase.getInstance(getActivity()).daoAlim().addalimento(aliment);
+                getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
                 final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("comida");
-                TextView text=getActivity().findViewById(R.id.totalc);
-                getActivity().runOnUiThread(()-> text.setText(calories.toString()));
+
+                TextView text = getActivity().findViewById(R.id.totalc);
+                getActivity().runOnUiThread(() -> text.setText(calories.toString()));
+
             }
+
         });
+    }
+
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        if (mAdapter2.getItemCount() == 0) {
+            loadAlimentos();
+        }
+
+        if (mAdapter2.getItemCount() == 0){
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("comida");
+                    if (calories != null) {
+                        TextView text = getActivity().findViewById(R.id.totalc);
+                        getActivity().runOnUiThread(() -> text.setText(calories.toString()));
+                    }
+                }
+            });
+
+        }
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-      //  super.onSaveInstanceState(AlimentosDataBase.getInstance(getActivity().getApplicationContext()));
+        //  super.onSaveInstanceState(AlimentosDataBase.getInstance(getActivity().getApplicationContext()));
         // ALTERNATIVE: Save all ToDoItems
 
     }
 
     @Override
     public void onDestroy() {
-
-        //AlimentosDataBase.getInstance(getActivity().getApplicationContext()).close();
+        //  AlimentosDataBase.getInstance(getActivity().getApplicationContext()).close();
         super.onDestroy();
     }
 
@@ -147,13 +175,11 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                List < Alimento > items = AlimentosDataBase.getInstance(getActivity()).daoAlim().getAll("comida");
-                getActivity().runOnUiThread(()->mAdapter2.load(items));
+                List<Alimento> items = AlimentosDataBase.getInstance(getActivity()).daoAlim().getAll("comida");
+                getActivity().runOnUiThread(() -> mAdapter2.load(items));
+
             }
         });
-
-
-
-
     }
+
 }

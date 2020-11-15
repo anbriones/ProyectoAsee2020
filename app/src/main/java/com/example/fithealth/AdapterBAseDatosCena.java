@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,9 @@ public class AdapterBAseDatosCena extends RecyclerView.Adapter<AdapterBAseDatosC
         holder.mTextView3.setText(mDataset.get(position).getGramos().toString());
         holder.mTextView4.setText(mDataset.get(position).getUnidad());
         holder.mTextView5.setText("calorias");
+       // holder.mfec.setText(mDataset.get(position).FORMAT.format(mDataset.get(position).getDate()));
           }
+
 
 
 
@@ -66,7 +69,8 @@ public class AdapterBAseDatosCena extends RecyclerView.Adapter<AdapterBAseDatosC
         private TextView mTextView3;
         private TextView mTextView4;
         private TextView mTextView5;
-        private TextView mtotal;
+        private TextView mfec;
+
 
         public View mView;
 
@@ -81,9 +85,10 @@ public class AdapterBAseDatosCena extends RecyclerView.Adapter<AdapterBAseDatosC
             mTextView3 = v.findViewById(R.id.cantidad);
             mTextView4 = v.findViewById(R.id.unidad);
             mTextView5 = v.findViewById(R.id.calorias_texto);
-            //  mtotal= v.findViewById(R.id.total);
+             mfec= v.findViewById(R.id.fechacena);
         }
     }
+
 
 
     public void add(Alimento item) {
@@ -100,19 +105,11 @@ public class AdapterBAseDatosCena extends RecyclerView.Adapter<AdapterBAseDatosC
     }
 
     public void load(List<Alimento> items){
-
         mDataset = items;
         notifyDataSetChanged();
 
     }
 
-    public int  caloriasTotales(List<Alimento> items){
-        int calorias=0;
 
-        for(int i=0;i<items.size();i++) {
-            calorias = calorias + items.get(i).getCalorias();
-        }
-        return calorias;
-    }
 
 }

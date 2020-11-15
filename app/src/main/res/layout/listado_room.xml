@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="127dp"
-        android:layout_marginBottom="-79dp">
+        android:layout_marginTop="156dp"
+        android:layout_marginBottom="-92dp">
 
         <TextView
             android:id="@+id/prod"
@@ -74,6 +74,19 @@
             app:layout_constraintStart_toEndOf="@+id/calorias_texto"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.054" />
+
+        <TextView
+            android:id="@+id/fec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.077"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/prod"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

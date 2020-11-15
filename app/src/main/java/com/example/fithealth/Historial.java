@@ -21,16 +21,22 @@ import com.example.fithealth.database.DateConverter;
 import com.example.fithealth.ui.Desayuno.AppExecutors;
 import com.example.fithealth.ui.home.HomeViewModel;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class Historial extends AppCompatActivity {
+    private static final int ADD_TODO_ITEM_REQUEST = 0;
     private RecyclerView recyclerView2;
     private RecyclerView.LayoutManager layoutManager2;
     private  Adaptercomidas adapter;
-   // private Date date;
+    private static String datestring;
+    private static String datestringm1;
+    private static Long dateLong;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    datestring="";
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial);
@@ -64,8 +70,9 @@ public class Historial extends AppCompatActivity {
                 if (dayOfMonth < 10)
                     day = "0" + dayOfMonth;
 
+            setDateString(year,month,dayOfMonth);
 
-             Toast.makeText(getApplicationContext(), "" + dayOfMonth, 0).show();// TODO Auto-generated method stub
+
 
 
             }
@@ -82,9 +89,7 @@ public class Historial extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        if (adapter.getItemCount() == 0) {
-            cargaralimentos();
-        }
+        cargaralimentos();
 
 
     }
@@ -103,22 +108,52 @@ public class Historial extends AppCompatActivity {
         //  crud.close();
         AlimentosDataBase.getInstance(this).close();
         super.onDestroy();
+        datestring="";
+    }
+
+    private static void setDateString(int year, int monthOfYear, int dayOfMonth) {
+
+        // Increment monthOfYear for Calendar/Date -> Time Format setting
+        monthOfYear++;
+        String mon = "" + monthOfYear;
+        String day = "" + dayOfMonth;
+
+        if (monthOfYear < 10)
+            mon = "0" + monthOfYear;
+        if (dayOfMonth < 10)
+            day = "0" + dayOfMonth;
+
+        String monm = "" + monthOfYear;
+        String daym = "" + dayOfMonth;
+
+        if (monthOfYear < 10)
+            monm = "0" + monthOfYear+1;
+        if (dayOfMonth < 10)
+            daym = "0" + dayOfMonth+1;
+
+
+        datestring  = year + "-" + mon + "-" + day;
+        datestringm1  = year + "-" + monm + "-" + daym;
     }
 
 
-    public void cargaralimentos(){/*
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                List<Alimento> items = AlimentosDataBase.getInstance(Historial.this).daoAlim().getAllFecha(date,date);
-                Historial.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.load(items);
-                    }
-                });
-            }
-        });*/
+    public void cargaralimentos(){
+        if(!datestring.isEmpty()) {
+            long l = Long.parseLong(datestring);
+            long l2 = Long.parseLong(datestringm1);
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<Alimento> items = AlimentosDataBase.getInstance(Historial.this).daoAlim().getAllfecha(l, l2);
+                    Historial.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.load(items);
+                        }
+                    });
+                }
+            });
+        }
         // Load saved ToDoItems, if necessary
 
     }

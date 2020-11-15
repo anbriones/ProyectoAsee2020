@@ -40,7 +40,6 @@ public class Adaptercomidas extends RecyclerView.Adapter<Adaptercomidas.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.mItem = mDataset.get(position);
         holder.mTextView.setText(mDataset.get(position).getNombre());
         holder.mTextView2.setText(mDataset.get(position).getCalorias().toString());

@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -56,18 +57,19 @@ public class Alimento {
         this.gramos = gramos;
         this.calorias = calorias;
         this.unidad = unidad;
+        //this.date=new Date((Date)Calendar.getInstance().getTime());
     }
-    @Ignore
-    public Alimento(String nombre, Integer calorias,Integer gramos, String unidad,Tipo tipo,Date fecha){
+
+    public Alimento(String nombre, Integer calories,Integer gramos, String unidad,Tipo tipo,Date fecha){
         this.nombre=nombre;
         this.gramos=gramos;
-        this.calorias=calorias;
+        this.calorias=calories;
         this.unidad=unidad;
         this.tipo=tipo;
         this.date=fecha;
 
     }
-    @Ignore
+@Ignore
     public Alimento(String nombre, Integer calorias,Integer gramos, String unidad,Tipo tipo,String  fecha){
         this.nombre=nombre;
         this.gramos=gramos;

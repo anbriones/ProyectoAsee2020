@@ -17,11 +17,9 @@ public interface DaoAlimentos {
     @Query("SELECT SUM(calorias) from alimento where Tipo like :tipo")
     public Integer getcaloriastotales(String tipo); //Devuelve todos los alimentos de la base de datos que sean del tipo indicado
 
+    @Query("SELECT * from alimento WHERE date BETWEEN :from AND :to")
+    public List <Alimento> getAllfecha(Long from, Long to); //Devuelve todos los alimentos de la base de datos que sean de una fecha indicada
 
-    /*
-    @Query("SELECT * from alimento where date like :fecha")
-    public List <Alimento> getAll(Date fecha); //Devuelve todos los alimentos de la base de datos que sean de una fecha indicada
-*/
 
     @Insert
     public void addalimento(Alimento alim);//Inserción de datos

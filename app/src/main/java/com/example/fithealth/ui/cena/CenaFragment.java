@@ -1,5 +1,6 @@
 package com.example.fithealth.ui.cena;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,7 @@ public class CenaFragment extends Fragment implements MyAdapterCena.OnListIntera
         private RecyclerView.LayoutManager layoutManager2;
 
         private static final int ADD_TODO_ITEM_REQUEST = 0;
-        private Object Date;
+        private Date date;
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {
@@ -94,6 +95,8 @@ public class CenaFragment extends Fragment implements MyAdapterCena.OnListIntera
             //Al ser un singleton solo se le llama una vez
             AlimentosDataBase.getInstance(this.getActivity());
 
+
+
             return root;
         }
 
@@ -101,39 +104,54 @@ public class CenaFragment extends Fragment implements MyAdapterCena.OnListIntera
         @Override
         public void onListInteraction(String nombre, Integer calorias, Integer cantidad, String unidad) {
             Calendar calendar = Calendar.getInstance();
+            date = new Date();
+            date = new Date(date.getTime());
 
             Alimento.Tipo tipo= Alimento.Tipo.valueOf("cena");
 
-            Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad,tipo, Calendar.getInstance().getTime());
+            Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad,tipo,date);
 
          aliment.setTipo(Alimento.Tipo.cena);
-
+            aliment.setDate((Date)Calendar.getInstance().getTime());
 
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
                     AlimentosDataBase.getInstance(getActivity()).daoAlim().addalimento(aliment);
                     getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
+                    final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("cena");
+
+                        TextView text = getActivity().findViewById(R.id.totalcena);
+                        getActivity().runOnUiThread(() -> text.setText(calories.toString()));
 
                 }
-            });
 
+            });
         }
+
 
         @Override
         public void onResume() {
-            recyclerView.setAdapter(mAdapter);
+
             super.onResume();
-            if (mAdapter2.getItemCount() == 0)
+            if (mAdapter2.getItemCount() == 0) {
                 loadAlimentos();
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("cena");
-                    TextView text=getActivity().findViewById(R.id.totalcena);
-                    getActivity().runOnUiThread(()-> text.setText(calories.toString()));
-                }
-            });
+            }
+
+            if (mAdapter2.getItemCount() == 0){
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("cena");
+                        if (calories != null) {
+                            TextView text = getActivity().findViewById(R.id.totalcena);
+                            getActivity().runOnUiThread(() -> text.setText(calories.toString()));
+                        }
+                    }
+                });
+
+            }
+
         }
 
         @Override
@@ -156,13 +174,11 @@ public class CenaFragment extends Fragment implements MyAdapterCena.OnListIntera
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    List < Alimento > items = AlimentosDataBase.getInstance(getActivity()).daoAlim().getAll("cena");
-                    getActivity().runOnUiThread(()->mAdapter2.load(items));
+                    List<Alimento> items = AlimentosDataBase.getInstance(getActivity()).daoAlim().getAll("cena");
+                    getActivity().runOnUiThread(() -> mAdapter2.load(items));
+
                 }
             });
-
-
-
+              }
 
         }
-    }
