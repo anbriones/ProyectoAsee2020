@@ -92,8 +92,8 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="action_settings">Datos personales</string>
+    <string name="title_activity_settings">Datos personales</string>
 
     <!-- Preference Titles -->
     <string name="datos">Datos personales</string>
@@ -103,6 +103,8 @@
     <string name="nombre">Nombre</string>
     <string name="altura">Altura</string>
     <string name="peso">Peso</string>
+    <string name="Sexo">Sexo</string>
+
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
@@ -111,21 +113,11 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="title_activity_diario">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Desayuno</string>
+    <string name="title_dashboard">Comida</string>
+    <string name="title_notifications">Cena</string>
     <string name="diario">Diario</string>
 
-    <string-array name="alimentos">
-        <item>Platano</item>
-        <item>Manzana</item>
-        <item>Pera</item>
-        <item>Melocotón</item>
-        <item>Mandarina</item>
-        <item>Fresas</item>
-        <item>Aguacate</item>
-        <item>Tomate</item>
-    </string-array>
 
 
 </resources>

@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class DateConverter {
     @TypeConverter
-    public static Date toDate(Long timestamp){
+    public static Date toDate(String timestamp){
     return null == timestamp ? new Date(timestamp) : null;
     }
     @TypeConverter

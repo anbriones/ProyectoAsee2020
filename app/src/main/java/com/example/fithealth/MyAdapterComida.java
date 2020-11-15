@@ -1,25 +1,26 @@
+
 package com.example.fithealth;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
 
-import android.widget.TextView;
+        import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
+        import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.fithealth.model.AlimentosAna;
-import com.example.fithealth.ui.home.HomeFragment;
+        import com.example.fithealth.model.AlimentosAna;
+        import com.example.fithealth.ui.home.HomeFragment;
 
-import java.util.List;
+        import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapterComida extends RecyclerView.Adapter<MyAdapterComida.MyViewHolder> {
     private List<AlimentosAna> mDataset;
     Context context;
     public interface OnListInteractionListener{
@@ -57,18 +58,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<AlimentosAna> myDataset, OnListInteractionListener listener) {
+    public MyAdapterComida(List<AlimentosAna> myDataset, OnListInteractionListener listener) {
         mDataset = myDataset;
         mListener = listener;
     }
 
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public MyAdapterComida.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
         // Create new views (invoked by the layout manager)
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listado, parent, false);
+                .inflate(R.layout.listado_comida, parent, false);
 
         return new MyViewHolder(v);
     }
@@ -80,7 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.mTextView.setText(mDataset.get(position).getNombreprod());
         holder.mTextView2.setText(mDataset.get(position).getCalorias().toString());
         holder.mTextView3.setText(mDataset.get(position).getCantidad().toString());
-       holder.mTextView4.setText(mDataset.get(position).getUnidad());
+        holder.mTextView4.setText(mDataset.get(position).getUnidad());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +89,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListInteraction(holder.mItem.getNombreprod(),holder.mItem.getCalorias(),holder.mItem.getCantidad(),holder.mItem.getUnidad());
+                    int calorias=(holder.mItem.getCalorias()*Integer.parseInt(holder.mTextView3.getText().toString())/holder.mItem.getCantidad());
+                    mListener.onListInteraction(holder.mItem.getNombreprod(),calorias,Integer.parseInt(holder.mTextView3.getText().toString()),holder.mItem.getUnidad());
 
                 }
             }

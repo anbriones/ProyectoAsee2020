@@ -6,12 +6,12 @@ import com.example.fithealth.database.Comidas;
 
 public class tipoConverter {
     @TypeConverter
-    public static Comidas.Tipo toTipo(String tipo){
-        return Comidas.Tipo.valueOf(tipo);
+    public static Alimento.Tipo toTipo(String tipo){
+        return Alimento.Tipo.valueOf(tipo);
     }
 
     @TypeConverter
-    public static String toString(Comidas.Tipo tipo){
+    public static String toString(Alimento.Tipo tipo){
         return tipo.name();
     }
 }

@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -17,12 +16,12 @@ import java.util.Locale;
 
 @Entity(tableName = "comidas")
 public class Comidas {
-
+/*
     public Comidas(List<Alimento> alimentos) {
         this.alimentos = alimentos;
     }
-
-    public enum Tipo{Desayuno,Comida,Cena};
+*/
+   // public enum Tipo{Desayuno,Comida,Cena};
 
     @Ignore
     public final static String ID = "id_comida";
@@ -35,14 +34,19 @@ public class Comidas {
 
     @PrimaryKey(autoGenerate = true)
     private long id_comida; //id de la comida que se va a hacer
-    @TypeConverters(tipoConverter.class)
-    private Tipo tipo; //Desayuno comida merienda cena o que se la cree el usuario
+   // @TypeConverters(tipoConverter.class)
+   // private Tipo tipo; //Desayuno comida merienda cena o que se la cree el usuario
     @TypeConverters(DateConverter.class)
     private Date fecha=new Date();
-    @TypeConverters(ListasConverter.class)
+
+@Embedded
     private final List<Alimento> alimentos;
 
+    public Comidas(List<Alimento> alimentos) {
+        this.alimentos = alimentos;
+    }
 
+    @TypeConverters(ListasConverter.class)
     public List<Alimento> getAlimentos() {
         return alimentos;
     }
@@ -58,7 +62,7 @@ public class Comidas {
     public void setId_comida(long id_comida) {
         this.id_comida = id_comida;
     }
-
+/*
     public Tipo getTipo() {
         return tipo;
     }
@@ -66,7 +70,7 @@ public class Comidas {
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
-
+*/
     public Date getFecha() {
         return fecha;
     }

@@ -1,5 +1,6 @@
 package com.example.fithealth;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,6 +16,7 @@ public class Diario extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diario);
         BottomNavigationView navView = findViewById(R.id.nav_view);
