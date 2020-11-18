@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,22 +18,34 @@ import java.util.List;
 
 
 
-public class AdapterBAseDatosCena extends RecyclerView.Adapter<AdapterBAseDatosCena.ViewHolder> {
+
+public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.ViewHolder> {
     private List<Alimento> mDataset= new ArrayList<Alimento>();
     Context context;
 
-    public AdapterBAseDatosCena(Context context ) {
+    public interface OnListInteractionListener{
+        public void onListInteractionBD(Alimento alim);
+    }
+
+    public AdapterBaseDatos.OnListInteractionListener mListener;
+
+
+
+    public AdapterBaseDatos(Context context,AdapterBaseDatos.OnListInteractionListener listener) {
+        mListener = listener;
         context = context;
     }
 
     @NonNull
     @Override
-    public AdapterBAseDatosCena.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                int viewType) {
+    public AdapterBaseDatos.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                              int viewType) {
+
+
         // create a new view
         // Create new views (invoked by the layout manager)
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listadoroom_cena, parent, false);
+                .inflate(R.layout.listado_room, parent, false);
 
         return new ViewHolder(v);
     }
@@ -42,15 +54,25 @@ public class AdapterBAseDatosCena extends RecyclerView.Adapter<AdapterBAseDatosC
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.mItem = mDataset.get(position);
         holder.mTextView.setText(mDataset.get(position).getNombre());
         holder.mTextView2.setText(mDataset.get(position).getCalorias().toString());
+        holder.mTextView5.setText("Kc");
         holder.mTextView3.setText(mDataset.get(position).getGramos().toString());
         holder.mTextView4.setText(mDataset.get(position).getUnidad());
-        holder.mTextView5.setText("calorias");
-       // holder.mfec.setText(mDataset.get(position).FORMAT.format(mDataset.get(position).getDate()));
-          }
+
+
+        holder.mbotoneliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    Alimento alim=mDataset.get(position);
+                    mListener.onListInteractionBD(alim);
+
+                }
+            }
+        });
+    }
 
 
 
@@ -69,43 +91,45 @@ public class AdapterBAseDatosCena extends RecyclerView.Adapter<AdapterBAseDatosC
         private TextView mTextView3;
         private TextView mTextView4;
         private TextView mTextView5;
-        private TextView mfec;
 
-
-        public View mView;
+        public Button mbotoneliminar;
 
 
         public Alimento mItem;
 
         public ViewHolder(@NonNull View v) {
             super(v);
-            mView=v;
-            mTextView = v.findViewById(R.id.prod);
+
+            mTextView = v.findViewById(R.id.prodl);
             mTextView2 = v.findViewById(R.id.calorias);
             mTextView3 = v.findViewById(R.id.cantidad);
             mTextView4 = v.findViewById(R.id.unidad);
-            mTextView5 = v.findViewById(R.id.calorias_texto);
-             mfec= v.findViewById(R.id.fechacena);
+            mTextView5 = v.findViewById(R.id.kc);
+            mbotoneliminar = v.findViewById(R.id.botonelim);
         }
     }
 
 
 
     public void add(Alimento item) {
+        item.setTipo(Alimento.Tipo.cena);
         mDataset.add(item);
+
         notifyDataSetChanged();
 
     }
 
-    public void clear(){
-
-        mDataset.clear();
+    public void eliminaralimento(Alimento alim){
+        mDataset.remove(alim);
         notifyDataSetChanged();
 
     }
 
     public void load(List<Alimento> items){
         mDataset = items;
+        for (int i = 0; i < mDataset.size(); i++) {
+            mDataset.get(i).setTipo(Alimento.Tipo.cena);
+        }
         notifyDataSetChanged();
 
     }

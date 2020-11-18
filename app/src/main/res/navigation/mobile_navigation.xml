@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/desayuno"
-        android:name="com.example.fithealth.ui.home.HomeFragment"
+        android:name="com.example.fithealth.ui.deayuno.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 

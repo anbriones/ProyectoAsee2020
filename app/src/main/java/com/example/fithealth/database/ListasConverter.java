@@ -22,7 +22,6 @@ public class ListasConverter {
             }
 
             Type listType = new TypeToken<List<Alimento>>() {}.getType();
-
             return gson.fromJson(data, listType);
         }
 

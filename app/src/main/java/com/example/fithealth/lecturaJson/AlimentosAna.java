@@ -1,5 +1,5 @@
 
-package com.example.fithealth.model;
+package com.example.fithealth.lecturaJson;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

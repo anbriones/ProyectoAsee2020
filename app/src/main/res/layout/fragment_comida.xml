@@ -9,41 +9,71 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listadoElemcomida"
         android:layout_width="match_parent"
-        android:layout_height="251dp"
+        android:layout_height="222dp"
+        android:layout_marginTop="36dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/escogidoscalendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total"
+        app:layout_constraintVertical_bias="0.099"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/escogidoscomida"
+        android:layout_width="match_parent"
+        android:layout_height="246dp"
+        android:background="@color/cardview_light_background"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/escogidoscomida"
-        app:layout_constraintVertical_bias="0.795"
-        tools:ignore="MissingConstraints" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/escogidoscomida"
-        android:layout_width="423dp"
-        android:layout_height="304dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="64dp"
-        android:background="@color/cardview_light_background"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/listadoElem"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total"
+        app:layout_constraintVertical_bias="0.963"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/totalc"
-        android:layout_width="93dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="32dp"
+        android:id="@+id/total"
+        android:layout_width="45dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="16dp"
         android:text="0"
+        android:textColor="#3459CA"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintHorizontal_bias="0.956"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Alimentos a escoger"
+        android:textColor="@color/textolistados"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/listadoElem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total" />
+
+    <TextView
+        android:id="@+id/textescogidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alimentos escogidos"
+        android:textColor="@color/textolistados"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/escogidoscomida"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listadoElemcomida"
+        app:layout_constraintVertical_bias="0.408" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

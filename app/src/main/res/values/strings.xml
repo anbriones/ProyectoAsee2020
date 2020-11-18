@@ -99,12 +99,17 @@
     <string name="datos">Datos personales</string>
     <string name="sync_header">Sync</string>
 
-    <!-- Messages Preferences -->
+
     <string name="nombre">Nombre</string>
     <string name="altura">Altura</string>
     <string name="peso">Peso</string>
+    <string name="Sexod">Fememnino</string>
+    <string name="nombred">Usuario</string>
+    <string name="alturad">165</string>
+    <string name="pesod">60</string>
     <string name="Sexo">Sexo</string>
-
+    <string name="edadd">25</string>
+    <string name="Edad">Edad</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
@@ -117,7 +122,6 @@
     <string name="title_dashboard">Comida</string>
     <string name="title_notifications">Cena</string>
     <string name="diario">Diario</string>
-
 
 
 </resources>

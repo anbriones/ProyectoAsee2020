@@ -15,45 +15,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdapterBaseDatosComida extends RecyclerView.Adapter<AdapterBaseDatosComida.ViewHolder> {
-    private List<Alimento> mDataset= new ArrayList<Alimento>();
-       Context context;
 
-    public AdapterBaseDatosComida(Context context ) {
+
+public class Adaptercomidashistorial extends RecyclerView.Adapter<Adaptercomidashistorial.ViewHolder> {
+    private List<Alimento> mDataset = new ArrayList<Alimento>();
+    Context context;
+
+    public Adaptercomidashistorial(Context context) {
         context = context;
     }
 
     @NonNull
     @Override
-    public AdapterBaseDatosComida.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                int viewType) {
+    public Adaptercomidashistorial.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                 int viewType) {
         // create a new view
         // Create new views (invoked by the layout manager)
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listadoroom_comida, parent, false);
+                .inflate(R.layout.listadocomidasfecha, parent, false);
 
         return new ViewHolder(v);
     }
 
 
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-       //if(mDataset.get(position).getTipo().equals("comida")) {
         holder.mItem = mDataset.get(position);
-         holder.mTextView.setText(mDataset.get(position).getNombre());
-            holder.mTextView2.setText(mDataset.get(position).getCalorias().toString());
-            holder.mTextView3.setText(mDataset.get(position).getGramos().toString());
-            holder.mTextView4.setText(mDataset.get(position).getUnidad());
-            holder.mTextView5.setText("calorias");
-    //   }
-        //holder.mtotal.setText(caloriasTotales(mDataset));
-
+        holder.mTextView.setText(mDataset.get(position).getNombre());
+        holder.mTextView2.setText(mDataset.get(position).getCalorias().toString());
+        holder.mTextView3.setText(mDataset.get(position).getGramos().toString());
+        holder.mTextView4.setText(mDataset.get(position).getUnidad());
+        holder.mTextView5.setText("calorias");
     }
+
 
     @Override
     public int getItemCount() {
-        return   mDataset.size();
+        return mDataset.size();
 
     }
 
@@ -73,13 +71,13 @@ public class AdapterBaseDatosComida extends RecyclerView.Adapter<AdapterBaseDato
 
         public ViewHolder(@NonNull View v) {
             super(v);
-            mView=v;
-            mTextView = v.findViewById(R.id.prod);
+            mView = v;
+            mTextView = v.findViewById(R.id.prodl);
             mTextView2 = v.findViewById(R.id.calorias);
             mTextView3 = v.findViewById(R.id.cantidad);
             mTextView4 = v.findViewById(R.id.unidad);
-            mTextView5 = v.findViewById(R.id.calorias_texto);
-          //  mtotal= v.findViewById(R.id.total);
+            mTextView5 = v.findViewById(R.id.kc);
+
         }
     }
 
@@ -90,27 +88,17 @@ public class AdapterBaseDatosComida extends RecyclerView.Adapter<AdapterBaseDato
 
     }
 
-    public void clear(){
+    public void clear() {
 
         mDataset.clear();
         notifyDataSetChanged();
 
     }
 
-    public void load(List<Alimento> items){
+    public void load(List<Alimento> items) {
 
         mDataset = items;
         notifyDataSetChanged();
 
     }
-
-    public int  caloriasTotales(List<Alimento> items){
-        int calorias=0;
-
-        for(int i=0;i<items.size();i++) {
-     calorias = calorias + items.get(i).getCalorias();
-    }
-    return calorias;
-    }
-
 }

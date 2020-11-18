@@ -10,27 +10,27 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="reply"
+            app:defaultValue="25"
             app:entries="@array/Edad"
             app:entryValues="@array/Edad"
-            app:key="Edad"
+            app:key="edadk"
             app:title="Edad"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            app:key="Altura"
+            app:key="alturak"
             app:title="@string/altura"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
-            app:key="Peso"
+            app:key="pesok"
             app:title="@string/peso"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="Femenino"
-            app:entries="@array/Sexoeleccion"
-            app:entryValues="@array/Sexoeleccion"
-            app:key="Sexo"
+            app:entries="@array/Sexo"
+            app:entryValues="@array/Sexo"
+            app:key="Sexok"
             app:title="Sexo"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>

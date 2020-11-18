@@ -18,8 +18,6 @@ public static AlimentosDataBase getInstance(Context context){
 
     return instance;
 }
-
-
     public  abstract  DaoAlimentos daoAlim();
    // public abstract DaoComidas daoCom();
 }

@@ -39,7 +39,8 @@ public class Comidas {
     @TypeConverters(DateConverter.class)
     private Date fecha=new Date();
 
-@Embedded
+
+    @TypeConverters(ListasConverter.class)
     private final List<Alimento> alimentos;
 
     public Comidas(List<Alimento> alimentos) {

@@ -1,6 +1,5 @@
 package com.example.fithealth.ui.comida;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,46 +10,40 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fithealth.AdapterBAseDatosCena;
 
+import com.example.fithealth.AdapterBaseDatos;
 
-import com.example.fithealth.MyAdapterCena;
-
-import com.example.fithealth.MyAdapterComida;
+import com.example.fithealth.MyAdapterJson;
 import com.example.fithealth.R;
 import com.example.fithealth.database.Alimento;
 import com.example.fithealth.database.AlimentosDataBase;
-import com.example.fithealth.model.AlimentosAna;
-import com.example.fithealth.ui.Desayuno.AppExecutors;
+import com.example.fithealth.lecturaJson.AlimentosAna;
+import com.example.fithealth.ui.lecturaAPI.AppExecutors;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-public class ComidaFragment extends Fragment implements MyAdapterComida.OnListInteractionListener{
+public class ComidaFragment extends Fragment implements MyAdapterJson.OnListInteractionListener,AdapterBaseDatos.OnListInteractionListener {
 
     private DashboardViewModel dashboardViewModel;
 
-
-
-
     private RecyclerView recyclerView;
-    private MyAdapterCena mAdapter;
+    private MyAdapterJson mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private AdapterBAseDatosCena mAdapter2;
+    private AdapterBaseDatos mAdapter2;
     private RecyclerView recyclerView2;
     private RecyclerView.LayoutManager layoutManager2;
 
@@ -59,6 +52,7 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_comida, container, false);
@@ -81,7 +75,7 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
             }
         }
 
-        mAdapter = new MyAdapterCena(aliments, this::onListInteraction);
+        mAdapter = new MyAdapterJson(aliments, this::onListInteraction);
         recyclerView.setAdapter(mAdapter);
 
 
@@ -90,39 +84,69 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
         recyclerView2.setHasFixedSize(true);
         layoutManager2 = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView2.setLayoutManager(layoutManager2);
-        mAdapter2=new AdapterBAseDatosCena(getActivity());
+        mAdapter2=new AdapterBaseDatos(getActivity(),this::onListInteractionBD);
 
         recyclerView2.setAdapter(mAdapter2);
-        //Al ser un singleton solo se le llama una vez
-        AlimentosDataBase.getInstance(this.getActivity());
-
 
 
         return root;
     }
 
 
+    public long fechaactual(){
+        Date    mDate = new Date();
+        mDate = new Date(mDate.getTime() );
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(mDate);
+
+        Integer  dia=c.get(Calendar.DAY_OF_MONTH);
+        Integer mes=c.get(Calendar.MONTH);
+        Integer año=c.get(Calendar.YEAR);
+
+             GregorianCalendar gc = new GregorianCalendar(año,mes,dia);
+
+    return  gc.getTimeInMillis();
+          }
+    public long fechaactualmas1(){
+        Date    mDate = new Date();
+        mDate = new Date(mDate.getTime() );
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(mDate);
+
+        Integer  dia=c.get(Calendar.DAY_OF_MONTH)+1;
+        Integer mes=c.get(Calendar.MONTH);
+        Integer año=c.get(Calendar.YEAR);
+
+        GregorianCalendar gc = new GregorianCalendar(año,mes,dia);
+
+        return  gc.getTimeInMillis();
+    }
+
     @Override
     public void onListInteraction(String nombre, Integer calorias, Integer cantidad, String unidad) {
-        Calendar calendar = Calendar.getInstance();
-        date = new Date();
-        date = new Date(date.getTime());
+        Date    mDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(mDate);
 
         Alimento.Tipo tipo= Alimento.Tipo.valueOf("comida");
 
-        Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad,tipo,date);
+        Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad,tipo,c.getTime());
 
         aliment.setTipo(Alimento.Tipo.comida);
         aliment.setDate((Date)Calendar.getInstance().getTime());
 
+        long f1=fechaactual();
+        long f2=fechaactualmas1();
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 AlimentosDataBase.getInstance(getActivity()).daoAlim().addalimento(aliment);
                 getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
-                final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("comida");
+                final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("comida",f1,f2);
 
-                TextView text = getActivity().findViewById(R.id.totalc);
+                TextView text = getActivity().findViewById(R.id.total);
                 getActivity().runOnUiThread(() -> text.setText(calories.toString()));
 
             }
@@ -140,12 +164,14 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
         }
 
         if (mAdapter2.getItemCount() == 0){
+            long f1=fechaactual();
+            long f2= fechaactualmas1();
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("comida");
+                    final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("comida",f1,f2);
                     if (calories != null) {
-                        TextView text = getActivity().findViewById(R.id.totalc);
+                        TextView text = getActivity().findViewById(R.id.total);
                         getActivity().runOnUiThread(() -> text.setText(calories.toString()));
                     }
                 }
@@ -158,28 +184,55 @@ public class ComidaFragment extends Fragment implements MyAdapterComida.OnListIn
     @Override
     public void onPause() {
         super.onPause();
-        //  super.onSaveInstanceState(AlimentosDataBase.getInstance(getActivity().getApplicationContext()));
-        // ALTERNATIVE: Save all ToDoItems
 
     }
+
 
     @Override
     public void onDestroy() {
-        //  AlimentosDataBase.getInstance(getActivity().getApplicationContext()).close();
-        super.onDestroy();
+         super.onDestroy();
     }
 
     private void loadAlimentos() {
-        // ToDoItemCRUD crud = ToDoItemCRUD.getInstance(this);
-        // List<ToDoItem> items = crud.getAll();
+        Date    mDate = new Date();
+        mDate = new Date(mDate.getTime() );
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(mDate);
+
+        Integer  dia=c.get(Calendar.DAY_OF_MONTH);
+        Integer mes=c.get(Calendar.MONTH);
+        Integer año=c.get(Calendar.YEAR);
+
+        Integer diasmas=dia+1;
+
+        GregorianCalendar gc = new GregorianCalendar(año,mes,dia);
+        GregorianCalendar gc2 = new GregorianCalendar(año,mes,diasmas);
+
+
+        long timeStamp = gc.getTimeInMillis();
+        long timeStamp2 = gc2.getTimeInMillis();
+
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                List<Alimento> items = AlimentosDataBase.getInstance(getActivity()).daoAlim().getAll("comida");
+                List<Alimento> items = AlimentosDataBase.getInstance(getActivity()).daoAlim().getAlldiarias("comida",timeStamp,timeStamp2);
+
                 getActivity().runOnUiThread(() -> mAdapter2.load(items));
 
             }
         });
     }
 
+    @Override
+    public void onListInteractionBD(Alimento alim) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                AlimentosDataBase.getInstance(getActivity()).daoAlim().deletealimento(alim);
+                getActivity().runOnUiThread(() -> mAdapter2.eliminaralimento(alim));
+
+            }
+        });
+    }
 }

@@ -17,7 +17,7 @@
         android:layout_marginBottom="-79dp">
 
         <TextView
-            android:id="@+id/prod"
+            android:id="@+id/prodl"
             android:layout_width="92dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
@@ -36,7 +36,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/prod"
+            app:layout_constraintStart_toEndOf="@+id/prodl"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.054" />
 
@@ -54,7 +54,7 @@
             app:layout_constraintVertical_bias="0.053" />
 
         <TextView
-            android:id="@+id/calorias_texto"
+            android:id="@+id/kc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="calorias"
@@ -71,7 +71,7 @@
             android:layout_marginLeft="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/calorias_texto"
+            app:layout_constraintStart_toEndOf="@+id/kc"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.054" />
 

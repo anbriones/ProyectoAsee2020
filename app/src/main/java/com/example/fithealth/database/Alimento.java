@@ -57,7 +57,7 @@ public class Alimento {
         this.gramos = gramos;
         this.calorias = calorias;
         this.unidad = unidad;
-        //this.date=new Date((Date)Calendar.getInstance().getTime());
+
     }
 
     public Alimento(String nombre, Integer calories,Integer gramos, String unidad,Tipo tipo,Date fecha){
@@ -132,8 +132,9 @@ public class Alimento {
     }
 
     public Tipo getTipo(){return tipo;}
+
     public void setTipo(Tipo tipo) {
-        tipo = tipo;
+        this.tipo = tipo;
     }
 
 }
