@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +16,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
-       import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.ImageButton;
         import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,12 +39,16 @@ public class Usuario extends AppCompatActivity  {
 
     public static int RESULT_LOAD_IMAGE = 1;
     ImageView imageView;
+    public static final String KEY_PREF_ALTURA = "alturak";
+    public static final String KEY_PREF_PESO = "pesok";
+    public static final String KEY_PREF_SEXO = "Sexok";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferenceManager.setDefaultValues(this,R.xml.root_preferences,false);
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
         setContentView(R.layout.ajustesusuario);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -74,7 +80,7 @@ public class Usuario extends AppCompatActivity  {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-              imageView.setImageURI(selectedImage);
+            imageView.setImageURI(selectedImage);
 
             try {
                 createImageFile();
@@ -85,6 +91,7 @@ public class Usuario extends AppCompatActivity  {
 
         }
     }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -97,7 +104,7 @@ public class Usuario extends AppCompatActivity  {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-       String currentPhotoPath = image.getAbsolutePath();
+        String currentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -105,7 +112,6 @@ public class Usuario extends AppCompatActivity  {
     @Override
     public void onResume() {
         super.onResume();
-
 
     }
 

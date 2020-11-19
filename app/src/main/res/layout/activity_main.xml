@@ -11,18 +11,17 @@
 
     <ImageButton
         android:id="@+id/historial"
-        android:layout_width="143dp"
-        android:layout_height="158dp"
+        android:layout_width="118dp"
+        android:layout_height="124dp"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/imagebg"
-        android:contentDescription="TODO"
+        android:layout_marginBottom="44dp"
+
+        android:src="@drawable/historial"
         app:layout_constraintBottom_toTopOf="@+id/diario"
         app:layout_constraintEnd_toStartOf="@+id/Historialtext"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/hit" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/diariotext"
@@ -32,7 +31,7 @@
         android:layout_marginRight="124dp"
         android:text="@string/diario"
         android:textColor="#ED2EB7"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,23 +42,23 @@
         android:id="@+id/Historialtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
-        android:layout_marginEnd="104dp"
-        android:layout_marginRight="104dp"
-        android:text="Historial"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Histórico de Comidas"
         android:textColor="#ED2EB7"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userimage" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <ImageButton
         android:id="@+id/diario"
-        android:layout_width="140dp"
-        android:layout_height="138dp"
+        android:layout_width="118dp"
+        android:layout_height="130dp"
         android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/diariotext"
         app:layout_constraintHorizontal_bias="0.0"
@@ -74,27 +73,27 @@
         android:src="@drawable/usuario"
         app:layout_constraintBottom_toTopOf="@+id/historial"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
+        app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.423"
         tools:srcCompat="@drawable/usuario" />
 
     <TextView
         android:id="@+id/fecha"
-        android:layout_width="148dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginLeft="136dp"
+        android:layout_width="113dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="204dp"
         android:text="TextView"
         android:textColor="#DF30C8"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/Historialtext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toEndOf="@+id/userimage"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -105,5 +104,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/alimentacion" />
+
+    <TextView
+        android:id="@+id/caloriasmain"
+        android:layout_width="79dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="@color/textolistados"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toEndOf="@+id/historial"
+        app:layout_constraintTop_toBottomOf="@+id/caloriasTexto" />
+
+    <TextView
+        android:id="@+id/caloriasTexto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Calorias Necesarias"
+        android:textColor="@color/colorAccent3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.577"
+        app:layout_constraintStart_toEndOf="@+id/userimage"
+        app:layout_constraintTop_toBottomOf="@+id/fecha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

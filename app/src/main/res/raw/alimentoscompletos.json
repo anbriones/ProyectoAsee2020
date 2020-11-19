@@ -1,0 +1,256 @@
+[
+  {
+    "nombreprod": "Bistec de ternera ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 92,
+    "proteinas": 20,
+    "hidratosDeCarbono": 0.7
+  },
+
+  {
+    "nombreprod": "Pollo muslo ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 130,
+    "proteinas": 19.6,
+    "hidratosDeCarbono": 0
+  },
+  {
+    "nombreprod": "Atún fresco  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 158,
+    "proteinas": 21.5 ,
+    "hidratosDeCarbono": 0
+  },
+  {
+    "nombreprod": "Lenguado  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 82,
+    "proteinas": 19.6 ,
+    "hidratosDeCarbono": 0.8
+  },
+  {
+    "nombreprod": "Salmón  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 176,
+    "proteinas": 18.4 ,
+    "hidratosDeCarbono": 0
+  },
+  {
+    "nombreprod": "Merluza  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 71,
+    "proteinas": 17 ,
+    "hidratosDeCarbono": 0
+  },
+  {
+    "nombreprod": "Gamba  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 65,
+    "proteinas": 13.6 ,
+    "hidratosDeCarbono": 2.9
+  },
+  {
+    "nombreprod": "Huevo  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 156,
+    "proteinas": 13,
+    "hidratosDeCarbono": 0
+  },
+  {
+    "nombreprod": "Aguacate  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 232,
+    "proteinas": 1.9,
+    "hidratosDeCarbono": 3.2
+  },
+  {
+    "nombreprod": "Melocotón  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 30,
+    "proteinas": 0.8,
+    "hidratosDeCarbono": 6.9
+  },
+  {
+    "nombreprod": "Plátano  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 85,
+    "proteinas": 1.2,
+    "hidratosDeCarbono": 19.5
+  },
+  {
+    "nombreprod": "Sandía  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 15,
+    "proteinas": 0.7,
+    "hidratosDeCarbono": 3.7
+  },
+  {
+    "nombreprod": "Naranja  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 53,
+    "proteinas": 1,
+    "hidratosDeCarbono": 11.7
+  },
+  {
+  "nombreprod": "Almendra  ",
+    "tipo" : "Fruta y Frutos secos",
+  "unidad": "g",
+  "cantidad": 100,
+  "calorias": 499,
+  "proteinas": 16,
+  "hidratosDeCarbono": 4
+},
+  {
+    "nombreprod": "Castaña  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 349,
+    "proteinas": 4.7,
+    "hidratosDeCarbono": 89
+  },
+  {
+    "nombreprod": "Piñón  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 568,
+    "proteinas": 29.6,
+    "hidratosDeCarbono": 5
+  },
+  {
+    "nombreprod": "Cacahuete  ",
+    "tipo" : "Fruta y Frutos secos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 452,
+    "proteinas": 20.4,
+    "hidratosDeCarbono": 35
+  },
+  {
+    "nombreprod": "Garbanzo  ",
+    "tipo" : "Legumbres y verduras",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 338,
+    "proteinas": 21.8,
+    "hidratosDeCarbono": 54.3
+  },
+  {
+    "nombreprod": "Lenteja  ",
+    "tipo" : "Legumbres y verduras",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 325,
+    "proteinas": 25,
+    "hidratosDeCarbono": 54
+  },
+  {
+    "nombreprod": "Alubia   ",
+    "tipo" : "Legumbres y verduras",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 316,
+    "proteinas": 23,
+    "hidratosDeCarbono": 61
+  },
+  {
+    "nombreprod": "Calabacín   ",
+    "tipo" : "Legumbres y verduras",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 12,
+    "proteinas": 1.3,
+    "hidratosDeCarbono": 1.4
+  },
+  {
+    "nombreprod": "Espinaca   ",
+    "tipo" : "Legumbres y verduras",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 31,
+    "proteinas": 3.3,
+    "hidratosDeCarbono": 3
+  },
+  {
+    "nombreprod": "Repollo ",
+    "tipo" : "Legumbres y verduras",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 19,
+    "proteinas": 2.1,
+    "hidratosDeCarbono": 2.5
+  },
+  {
+    "nombreprod": "Arroz ",
+    "tipo" : "Cereales y lacteos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 362,
+    "proteinas": 7,
+    "hidratosDeCarbono": 87.6
+  },
+  {
+    "nombreprod": "Leche entera  ",
+    "tipo" : "Cereales y lacteos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 63,
+    "proteinas": 3.2,
+    "hidratosDeCarbono": 4.6
+  },
+  {
+    "nombreprod": "Leche semidesnatada   ",
+    "tipo" : "Cereales y lacteos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 49,
+    "proteinas": 3.5,
+    "hidratosDeCarbono": 5
+  },
+  {
+    "nombreprod": " Yogur entero    ",
+    "tipo" : "Cereales y lacteos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 61,
+    "proteinas": 3.3,
+    "hidratosDeCarbono": 4
+  },
+  {
+    "nombreprod": " Queso de Oveja     ",
+    "tipo" : "Cereales y lacteos",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 380,
+    "proteinas": 28.2,
+    "hidratosDeCarbono": 2
+  }
+
+]

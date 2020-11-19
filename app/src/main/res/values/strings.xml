@@ -110,7 +110,7 @@
     <string name="Sexo">Sexo</string>
     <string name="edadd">25</string>
     <string name="Edad">Edad</string>
-
+    <string name="CaloriasNecesarias">Calorias Necesarias</string>
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>

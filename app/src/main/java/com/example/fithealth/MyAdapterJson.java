@@ -9,14 +9,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fithealth.lecturaJson.AlimentosAna;
+
+import com.example.fithealth.lecturaJson.AlimentosFinales;
 
 import java.util.List;
 
 
 
 public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHolder> {
-    private List<AlimentosAna> mDataset;
+    private List<AlimentosFinales> mDataset;
     Context context;
     Integer gramos;
     public interface OnListInteractionListener{
@@ -39,9 +40,7 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
         public Button maniadir;
 
 
-
-        public AlimentosAna mItem;
-
+        public AlimentosFinales mItem;
 
         public MyViewHolder(View v) {
             super(v);
@@ -59,7 +58,7 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapterJson(List<AlimentosAna> myDataset, MyAdapterJson.OnListInteractionListener listener) {
+    public MyAdapterJson(List<AlimentosFinales> myDataset, MyAdapterJson.OnListInteractionListener listener) {
         mDataset = myDataset;
         mListener = listener;
     }
@@ -123,7 +122,7 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
         return mDataset.size();
     }
 
-    public void swap(List<AlimentosAna> dataset){
+    public void swap(List<AlimentosFinales> dataset){
         mDataset = dataset;
         notifyDataSetChanged();
     }

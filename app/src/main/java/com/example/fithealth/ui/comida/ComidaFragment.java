@@ -21,7 +21,8 @@ import com.example.fithealth.MyAdapterJson;
 import com.example.fithealth.R;
 import com.example.fithealth.database.Alimento;
 import com.example.fithealth.database.AlimentosDataBase;
-import com.example.fithealth.lecturaJson.AlimentosAna;
+
+import com.example.fithealth.lecturaJson.AlimentosFinales;
 import com.example.fithealth.ui.lecturaAPI.AppExecutors;
 
 import com.google.gson.Gson;
@@ -63,10 +64,10 @@ public class ComidaFragment extends Fragment implements MyAdapterJson.OnListInte
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        List<AlimentosAna> aliments;
-        com.google.gson.stream.JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.alimentos)));
+        List<AlimentosFinales> aliments;
+        com.google.gson.stream.JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.alimentoscompletos)));
         try {
-            aliments = Arrays.asList(new Gson().fromJson(reader, AlimentosAna[].class));
+            aliments = Arrays.asList(new Gson().fromJson(reader, AlimentosFinales[].class));
         } finally {
             try {
                 reader.close();
