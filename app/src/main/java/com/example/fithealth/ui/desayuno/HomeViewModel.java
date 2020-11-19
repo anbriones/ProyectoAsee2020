@@ -1,4 +1,4 @@
-package com.example.fithealth.ui.deayuno;
+package com.example.fithealth.ui.desayuno;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
