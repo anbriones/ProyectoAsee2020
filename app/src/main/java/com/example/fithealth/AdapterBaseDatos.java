@@ -10,17 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fithealth.database.Alimento;
+import com.example.fithealth.roomdatabase.Alimento;
+import com.example.fithealth.roomdatabase.AlimentoEnComida;
+import com.example.fithealth.roomdatabase.Comida;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
 public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.ViewHolder> {
     private List<Alimento> mDataset= new ArrayList<Alimento>();
+    private List<Comida> mDatasetcom=  new ArrayList<Comida>();
+    private List<AlimentoEnComida> mDatasetAlimcomida=  new ArrayList<AlimentoEnComida>();
     Context context;
 
     public interface OnListInteractionListener{
@@ -40,8 +40,6 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
     @Override
     public AdapterBaseDatos.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                               int viewType) {
-
-
         // create a new view
         // Create new views (invoked by the layout manager)
         View v = LayoutInflater.from(parent.getContext())
@@ -49,7 +47,6 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
 
         return new ViewHolder(v);
     }
-
 
 
     @Override
@@ -60,7 +57,6 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
         holder.mTextView5.setText("Kc");
         holder.mTextView3.setText(mDataset.get(position).getGramos().toString());
         holder.mTextView4.setText(mDataset.get(position).getUnidad());
-
 
         holder.mbotoneliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,14 +70,9 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
         });
     }
 
-
-
-
-
     @Override
     public int getItemCount() {
         return   mDataset.size();
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -93,13 +84,10 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
         private TextView mTextView5;
 
         public Button mbotoneliminar;
-
-
         public Alimento mItem;
 
         public ViewHolder(@NonNull View v) {
             super(v);
-
             mTextView = v.findViewById(R.id.prodl);
             mTextView2 = v.findViewById(R.id.calorias);
             mTextView3 = v.findViewById(R.id.cantidad);
@@ -112,24 +100,17 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
 
 
     public void add(Alimento item) {
-        item.setTipo(Alimento.Tipo.cena);
         mDataset.add(item);
-
         notifyDataSetChanged();
-
     }
 
     public void eliminaralimento(Alimento alim){
         mDataset.remove(alim);
         notifyDataSetChanged();
-
     }
 
     public void load(List<Alimento> items){
         mDataset = items;
-        for (int i = 0; i < mDataset.size(); i++) {
-            mDataset.get(i).setTipo(Alimento.Tipo.cena);
-        }
         notifyDataSetChanged();
 
     }

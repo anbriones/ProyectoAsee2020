@@ -3,7 +3,7 @@ package com.example.fithealth;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import com.example.fithealth.database.AlimentosDataBase;
+import com.example.fithealth.roomdatabase.Comidasdatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +30,7 @@ public class Diario extends AppCompatActivity  {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        AlimentosDataBase.getInstance(this);
+        Comidasdatabase.getInstance(this);
 
     }
 }

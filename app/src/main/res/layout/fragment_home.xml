@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.lecturaAPI.">
+    tools:context=".ui.desayuno.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listadoElem"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total"
+        app:layout_constraintTop_toBottomOf="@+id/totaldesayuno"
         app:layout_constraintVertical_bias="0.099"
         tools:ignore="MissingConstraints" />
 
@@ -31,12 +31,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total"
+        app:layout_constraintTop_toBottomOf="@+id/totaldesayuno"
         app:layout_constraintVertical_bias="0.963"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/total"
+        android:id="@+id/totaldesayuno"
         android:layout_width="45dp"
         android:layout_height="27dp"
         android:layout_marginTop="4dp"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total" />
+        app:layout_constraintTop_toBottomOf="@+id/totaldesayuno" />
 
     <TextView
         android:id="@+id/textView2"

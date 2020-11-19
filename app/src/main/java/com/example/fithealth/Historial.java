@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
-import com.example.fithealth.database.Alimento;
-import com.example.fithealth.database.AlimentosDataBase;
+import com.example.fithealth.roomdatabase.Alimento;
+import com.example.fithealth.roomdatabase.Comidasdatabase;
 import com.example.fithealth.ui.lecturaAPI.AppExecutors;
 
 import java.util.GregorianCalendar;
@@ -44,7 +44,7 @@ public class Historial extends AppCompatActivity {
 
         recyclerView2.setAdapter(adapter);
         //Al ser un singleton solo se le llama una vez
-        AlimentosDataBase.getInstance(this);
+        Comidasdatabase.getInstance(this);
 
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendario);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -80,10 +80,6 @@ public class Historial extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-
-
-
     }
 
     @Override
@@ -96,9 +92,7 @@ public class Historial extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        /// ToDoItemCRUD crud = ToDoItemCRUD.getInstance(this);
-        //  crud.close();
-        AlimentosDataBase.getInstance(this).close();
+        Comidasdatabase.getInstance(this).close();
         super.onDestroy();
 
     }
@@ -112,14 +106,14 @@ public class Historial extends AppCompatActivity {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final Integer calories = AlimentosDataBase.getInstance(Historial.this).daoAlim().getAllcaloriasfecha(newDate,newDate2);
+                    final Integer calories = Comidasdatabase.getInstance(Historial.this).daoAlim().getAllcaloriasfecha(newDate,newDate2);
                     if(calories!=null) {
                         TextView text = Historial.this.findViewById(R.id.totales);
                         Historial.this.runOnUiThread(() -> text.setText(calories.toString()));
                         TextView text2 = Historial.this.findViewById(R.id.caloriastotales);
                         Historial.this.runOnUiThread(() -> text2.setText("calorias"));
                     }
-                    List<Alimento> items = AlimentosDataBase.getInstance(Historial.this).daoAlim().getAllfecha(newDate,newDate2);
+                    List<Alimento> items = Comidasdatabase.getInstance(Historial.this).daoAlim().getAllfecha(newDate,newDate2);
                     Historial.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -128,6 +122,8 @@ public class Historial extends AppCompatActivity {
                     });
                 }
             });
+
+
         }
     }
 

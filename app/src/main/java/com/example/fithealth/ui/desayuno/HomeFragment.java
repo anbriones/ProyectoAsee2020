@@ -1,5 +1,6 @@
 package com.example.fithealth.ui.desayuno;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fithealth.AdapterBaseDatos;
 
+
+import com.example.fithealth.Historial;
+import com.example.fithealth.MainActivity;
 import com.example.fithealth.MyAdapterJson;
 import com.example.fithealth.R;
-import com.example.fithealth.database.Alimento;
-import com.example.fithealth.database.AlimentosDataBase;
+import com.example.fithealth.roomdatabase.Alimento;
+import com.example.fithealth.roomdatabase.AlimentoEnComida;
+import com.example.fithealth.roomdatabase.Comida;
+import com.example.fithealth.roomdatabase.Comidasdatabase;
 
 import com.example.fithealth.lecturaJson.AlimentosFinales;
 import com.example.fithealth.ui.lecturaAPI.AppExecutors;
@@ -27,6 +33,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -119,39 +126,49 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     @Override
     public void onListInteraction(String nombre, Integer calorias, Integer cantidad, String unidad) {
-        Alimento.Tipo tipo= Alimento.Tipo.valueOf("desayuno");
+       // Alimento.Tipo tipo= Alimento.Tipo.valueOf("desayuno");
         Date    mDate = new Date();
         mDate = new Date(mDate.getTime() );
-
         Calendar c = Calendar.getInstance();
         c.setTime(mDate);
-
         mDate=c.getTime();
-        Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad,tipo, mDate);
+
+      Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad);
+        Comida.Tipo tipo= Comida.Tipo.valueOf("desayuno");
+        Comida comida= new Comida(tipo,mDate);
+
 
         long f1=fechaactual();
         long f2=fechaactualmas1();
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                AlimentosDataBase.getInstance(getActivity()).daoAlim().addalimento(aliment);
+                Long id_alim = Comidasdatabase.getInstance(getActivity()).daoAlim().addalimento(aliment);
+                Long id_comida = Comidasdatabase.getInstance(getActivity()).daoAlim().addcomida(comida);
+                AlimentoEnComida alimencomida = new AlimentoEnComida(id_alim, id_comida);
+                Comidasdatabase.getInstance(getActivity()).daoAlim().addalimcomida(alimencomida);
                 getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
-                final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("desayuno",f1,f2);
+
+                final Integer calories = Comidasdatabase.getInstance(getActivity()).daoAlim().getcaloriastotales("desayuno", f1, f2);
                 if (calories != 0) {
-                    TextView text = getActivity().findViewById(R.id.total);
+                    TextView text = getActivity().findViewById(R.id.totaldesayuno);
                     getActivity().runOnUiThread(() -> text.setText(calories.toString()));
+
                 }
             }
 
         });
         }
 
+    @Override
+    public void desplegardetalles(AlimentosFinales alim) {
 
+    }
 
 
     @Override
     public void onResume() {
-        new ViewModelProvider(this).get(HomeViewModel.class);
+
         super.onResume();
         if (mAdapter2.getItemCount() == 0)
             loadAlimentos();
@@ -159,12 +176,13 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         if (mAdapter2.getItemCount() == 0){
             long f1=fechaactual();
             long f2=fechaactualmas1();
+
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final Integer calories = AlimentosDataBase.getInstance(getActivity()).daoAlim().getcaloriastotales("desayuno",f1,f2);
+                    final Integer calories = Comidasdatabase.getInstance(getActivity()).daoAlim().getcaloriastotales("desayuno",f1,f2);
                     if (calories != null) {
-                        TextView text = getActivity().findViewById(R.id.total);
+                        TextView text = getActivity().findViewById(R.id.totaldesayuno);
                         getActivity().runOnUiThread(() -> text.setText(calories.toString()));
                     }
                 }
@@ -209,7 +227,7 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                List<Alimento> items = AlimentosDataBase.getInstance(getActivity()).daoAlim().getAlldiarias("desayuno",timeStamp,timeStamp2);
+                List<Alimento> items = Comidasdatabase.getInstance(getActivity()).daoAlim().getAlldiarias("desayuno",timeStamp,timeStamp2);
                 getActivity().runOnUiThread(() -> mAdapter2.load(items));
 
             }
@@ -221,13 +239,21 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     @Override
     public void onListInteractionBD(Alimento alim) {
+       long idalim= alim.getId();
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                AlimentosDataBase.getInstance(getActivity()).daoAlim().deletealimento(alim);
+             long idcomida=   Comidasdatabase.getInstance(getActivity()).daoAlim().obteneridcomida(idalim);
+             List<AlimentoEnComida> alimencomidas=   Comidasdatabase.getInstance(getActivity()).daoAlim().obteneralimentos(idalim,idcomida);
+                for (int i = 0; i < alimencomidas.size(); i++) {
+                    Comidasdatabase.getInstance(getActivity()).daoAlim().deletealimentoencomida(alimencomidas.get(i));
+                }
+                Comidasdatabase.getInstance(getActivity()).daoAlim().deletealimento(alim);
                 getActivity().runOnUiThread(() -> mAdapter2.eliminaralimento(alim));
 
             }
         });
+
     }
+
 }

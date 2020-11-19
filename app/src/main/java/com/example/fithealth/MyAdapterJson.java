@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.fithealth.lecturaJson.AlimentosFinales;
+import com.example.fithealth.roomdatabase.Alimento;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
     Integer gramos;
     public interface OnListInteractionListener{
         public void onListInteraction(String nombre, Integer calorias,Integer cantidad ,String unidad);
+        public void desplegardetalles(AlimentosFinales alim);
     }
 
     public MyAdapterJson.OnListInteractionListener mListener;

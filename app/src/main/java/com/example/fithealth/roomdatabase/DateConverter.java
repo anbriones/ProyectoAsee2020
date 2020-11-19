@@ -1,4 +1,4 @@
-package com.example.fithealth.database;
+package com.example.fithealth.roomdatabase;
 
 import androidx.room.TypeConverter;
 
