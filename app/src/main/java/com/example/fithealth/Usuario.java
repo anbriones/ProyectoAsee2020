@@ -79,6 +79,7 @@ public class Usuario extends AppCompatActivity  {
 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+
             Uri selectedImage = data.getData();
             imageView.setImageURI(selectedImage);
 
@@ -87,9 +88,15 @@ public class Usuario extends AppCompatActivity  {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
+        imageView.buildDrawingCache();
+        Bitmap bm=imageView.getDrawingCache();
+
+
+
+        MediaStore.Images.Media.insertImage(getContentResolver(), bm, "Imagen user" , "imagen del usuario ");
+
+
     }
 
     private File createImageFile() throws IOException {
@@ -112,6 +119,7 @@ public class Usuario extends AppCompatActivity  {
     @Override
     public void onResume() {
         super.onResume();
+
 
     }
 

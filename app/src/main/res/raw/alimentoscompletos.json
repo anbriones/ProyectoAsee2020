@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "nombreprod": "Bistec de ternera ",
     "tipo" : "CarnePescadoyhuevo",
@@ -251,6 +251,266 @@
     "calorias": 380,
     "proteinas": 28.2,
     "hidratosDeCarbono": 2
+  },
+{
+    "nombreprod": "Caballa ahumada  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 158,
+    "proteinas": 25.54 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Cabrito al horno ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 142,
+    "proteinas": 26.87 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Callos  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 89,
+    "proteinas": 12.06 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Paletilla de cordero  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 314,
+    "proteinas": 16.00 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Chuleta de ternera  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 109,
+    "proteinas": 21.00 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "lomo de cerdo  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 193,
+    "proteinas": 23.29 ,
+    "hidratosDeCarbono": 7.57
+  },
+{
+    "nombreprod": "Chicharrones  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 540,
+    "proteinas": 20 ,
+    "hidratosDeCarbono": 1
+  },
+{
+    "nombreprod": "Conejo guisado  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 314,
+    "proteinas": 17.18 ,
+    "hidratosDeCarbono": 6.85
+  },
+{
+    "nombreprod": "Dorada  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 140,
+    "proteinas": 20.82 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Filete de pollo empanado  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 240,
+    "proteinas": 14.62 ,
+    "hidratosDeCarbono": 14.82
+  },
+{
+    "nombreprod": "Hamburguesa  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 220,
+    "proteinas": 16.00 ,
+    "hidratosDeCarbono": 16.760
+  },
+{
+    "nombreprod": "Jamón cocido  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 114,
+    "proteinas": 21,
+    "hidratosDeCarbono": 0.4
+  },
+{
+    "nombreprod": "Jamón serrano  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 241,
+    "proteinas": 31 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Lubina al vapor  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 122,
+    "proteinas": 23.18 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Mejillones al vapor  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 171,
+    "proteinas": 23.7 ,
+    "hidratosDeCarbono": 7.35
+  },
+{
+    "nombreprod": "Mortadela  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 311,
+    "proteinas": 16.37 ,
+    "hidratosDeCarbono": 3.05
+  },
+{
+    "nombreprod": "Muslo de pollo asado  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 206,
+    "proteinas": 25.65 ,
+    "hidratosDeCarbono": 0.12
+  },
+{
+    "nombreprod": "Paella de mariscos  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 142,
+    "proteinas": 8.04 ,
+    "hidratosDeCarbono": 16.43
+  },
+{
+    "nombreprod": "Paella de carne  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 270,
+    "proteinas": 21.71 ,
+    "hidratosDeCarbono": 16.74
+  },
+{
+    "nombreprod": "Puré de patatas  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 111,
+    "proteinas": 2.05 ,
+    "hidratosDeCarbono": 17.69
+  },
+{
+    "nombreprod": "Rape  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 86,
+    "proteinas": 17 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Rodaballo  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 98,
+    "proteinas": 16.01 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Salami  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 378,
+    "proteinas": 21.07 ,
+    "hidratosDeCarbono": 0.72
+  },
+{
+    "nombreprod": "Salmón ahumado  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 117,
+    "proteinas": 18.28 ,
+    "hidratosDeCarbono": 0
+  },
+{
+    "nombreprod": "Sepia  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 92,
+    "proteinas": 15.58 ,
+    "hidratosDeCarbono": 3.08
+  },
+{
+    "nombreprod": "Sushi  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 93,
+    "proteinas": 2.92 ,
+    "hidratosDeCarbono": 18.42
+  },
+{
+    "nombreprod": "Tortilla francesa  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 180,
+    "proteinas": 11.16 ,
+    "hidratosDeCarbono": 1.81
+  },
+{
+    "nombreprod": "Trucha al horno  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 205,
+    "proteinas": 24.040 ,
+    "hidratosDeCarbono": 0.1
+  },
+{
+    "nombreprod": "Burrito de pollo  ",
+    "tipo" : "CarnePescadoyhuevo",
+    "unidad": "g",
+    "cantidad": 100,
+    "calorias": 242,
+    "proteinas": 16.9 ,
+    "hidratosDeCarbono": 16.57
   }
-
 ]

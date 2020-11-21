@@ -24,7 +24,7 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
     Context context;
 
     public interface OnListInteractionListener{
-        public void onListInteractionBD(Alimento alim);
+        public void onListInteractionBD(long  alim);
     }
 
     public AdapterBaseDatos.OnListInteractionListener mListener;
@@ -62,8 +62,7 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    Alimento alim=mDataset.get(position);
-                    mListener.onListInteractionBD(alim);
+                    mListener.onListInteractionBD(holder.mItem.getId());
 
                 }
             }
@@ -110,6 +109,7 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
     }
 
     public void load(List<Alimento> items){
+        mDataset.clear();
         mDataset = items;
         notifyDataSetChanged();
 

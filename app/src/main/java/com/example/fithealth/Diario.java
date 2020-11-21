@@ -30,7 +30,7 @@ public class Diario extends AppCompatActivity  {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        Comidasdatabase.getInstance(this);
+
 
     }
 }

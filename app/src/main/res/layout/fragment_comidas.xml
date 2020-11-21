@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_home"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.desayuno.HomeFragment">
+    tools:context=".ui.cena.CenaFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listadoElem"
+        android:id="@+id/listadoElemcena"
         android:layout_width="match_parent"
         android:layout_height="222dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="92dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/escogidoscalendar"
+        app:layout_constraintBottom_toTopOf="@+id/escogidoscena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totaldesayuno"
+        app:layout_constraintTop_toBottomOf="@+id/totalcena"
         app:layout_constraintVertical_bias="0.099"
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/escogidoscalendar"
+        android:id="@+id/escogidoscena"
         android:layout_width="match_parent"
         android:layout_height="246dp"
         android:background="@color/cardview_light_background"
@@ -31,16 +31,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totaldesayuno"
-        app:layout_constraintVertical_bias="0.963"
+        app:layout_constraintTop_toBottomOf="@+id/totalcena"
+        app:layout_constraintVertical_bias="0.961"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/totaldesayuno"
+        android:id="@+id/totalcena"
         android:layout_width="45dp"
         android:layout_height="27dp"
-        android:layout_marginTop="4dp"
-        android:text="0"
+        android:layout_marginTop="24dp"
         android:textColor="#3459CA"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,28 +51,30 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="Alimentos a escoger"
         android:textColor="@color/textolistados"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/listadoElem"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totaldesayuno" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alimentos consumidos"
-        android:textColor="@color/textolistados"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/escogidoscalendar"
+        app:layout_constraintBottom_toTopOf="@+id/listadoElemcena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listadoElem"
-        app:layout_constraintVertical_bias="0.821" />
+        app:layout_constraintTop_toBottomOf="@+id/totalcena"
+        app:layout_constraintVertical_bias="0.119" />
+
+    <TextView
+        android:id="@+id/textescogidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alimentos escogidos"
+        android:textColor="@color/textolistados"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/escogidoscena"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listadoElemcena"
+        app:layout_constraintVertical_bias="0.622" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

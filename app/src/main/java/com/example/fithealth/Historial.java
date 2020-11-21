@@ -19,17 +19,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Historial extends AppCompatActivity {
-    private static final int ADD_TODO_ITEM_REQUEST = 0;
+
     private RecyclerView recyclerView2;
     private RecyclerView.LayoutManager layoutManager2;
     private Adaptercomidashistorial adapter;
-    private static String datestring;
-    private static String datestringm1;
-    private static Long dateLong;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    datestring="";
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial);
@@ -92,7 +90,7 @@ public class Historial extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Comidasdatabase.getInstance(this).close();
+        //Comidasdatabase.getInstance(this).close();
         super.onDestroy();
 
     }
@@ -101,9 +99,7 @@ public class Historial extends AppCompatActivity {
 
 
     public void cargaralimentos(long newDate,long newDate2) {
-
-
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
                     final Integer calories = Comidasdatabase.getInstance(Historial.this).daoAlim().getAllcaloriasfecha(newDate,newDate2);
@@ -112,6 +108,12 @@ public class Historial extends AppCompatActivity {
                         Historial.this.runOnUiThread(() -> text.setText(calories.toString()));
                         TextView text2 = Historial.this.findViewById(R.id.caloriastotales);
                         Historial.this.runOnUiThread(() -> text2.setText("calorias"));
+                    }
+                    else {
+                        TextView text = Historial.this.findViewById(R.id.totales);
+                        Historial.this.runOnUiThread(() -> text.setText(" "));
+                        TextView text2 = Historial.this.findViewById(R.id.caloriastotales);
+                        Historial.this.runOnUiThread(() -> text2.setText(" "));
                     }
                     List<Alimento> items = Comidasdatabase.getInstance(Historial.this).daoAlim().getAllfecha(newDate,newDate2);
                     Historial.this.runOnUiThread(new Runnable() {

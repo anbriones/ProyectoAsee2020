@@ -9,17 +9,17 @@
         android:id="@+id/desayuno"
         android:name="com.example.fithealth.ui.desayuno.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_comidas" />
 
     <fragment
         android:id="@+id/comida"
         android:name="com.example.fithealth.ui.comida.ComidaFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_comida" />
+        tools:layout="@layout/fragment_comidas" />
 
     <fragment
         android:id="@+id/cena"
         android:name="com.example.fithealth.ui.cena.CenaFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_cena" />
+        tools:layout="@layout/fragment_comidas" />
 </navigation>

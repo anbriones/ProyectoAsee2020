@@ -23,7 +23,7 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
     Integer gramos;
     public interface OnListInteractionListener{
         public void onListInteraction(String nombre, Integer calorias,Integer cantidad ,String unidad);
-        public void desplegardetalles(AlimentosFinales alim);
+
     }
 
     public MyAdapterJson.OnListInteractionListener mListener;

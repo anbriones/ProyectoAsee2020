@@ -58,8 +58,18 @@ public interface DaoComidas {
     public void deletealimento(Alimento alim);
 
     @Delete
+    public void deletecomida(Comida comida);
+
+    @Delete
     public void deletealimentoencomida(AlimentoEnComida alim);
 
+    @Query("SELECT * FROM Comida "+
+            " WHERE  id like:idcomi")
+    public List <Comida> obtenercomidas(Long idcomi);
+
+    @Query("SELECT * FROM Alimento "+
+            " WHERE  id like:idalim")
+    public Alimento obteneralimento(Long idalim);
 
     //Devolver una lista con las tuplas que tengan el id de alimentoy de comida pasados por parámetro
     @Query("SELECT * FROM ALIMENTOENCOMIDA "+
