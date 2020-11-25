@@ -23,6 +23,8 @@ import com.example.fithealth.roomdatabase.Comida;
 import com.example.fithealth.roomdatabase.Comidasdatabase;
 
 import com.example.fithealth.lecturaJson.AlimentosFinales;
+import com.example.fithealth.ui.lecturaAPI.AlimentosLoaderRunnable;
+import com.example.fithealth.ui.lecturaAPI.AlimentosNetworkLoaderRunnable;
 import com.example.fithealth.ui.lecturaAPI.AppExecutors;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -30,6 +32,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -60,19 +63,9 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        List<AlimentosFinales> aliments;
-        com.google.gson.stream.JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.alimentoscompletos)));
-        try {
-            aliments = Arrays.asList(new Gson().fromJson(reader, AlimentosFinales[].class));
-        } finally {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
-        mAdapter = new MyAdapterJson(aliments, this);
+        mAdapter = new MyAdapterJson(new ArrayList<AlimentosFinales>(), this);
+         AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable((aliments) -> mAdapter.swap(aliments)));
         recyclerView.setAdapter(mAdapter);
 
 
@@ -157,7 +150,7 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         });
     }
 
-   
+
 
     @Override
     public void onResume() {

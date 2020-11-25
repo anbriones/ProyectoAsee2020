@@ -1,5 +1,6 @@
 package com.example.fithealth.ui.lecturaAPI;
 
+import com.example.fithealth.lecturaJson.AlimentosFinales;
 import com.example.fithealth.model.Food;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -23,12 +24,12 @@ public class AlimentosLoaderRunnable implements Runnable {
     public void run() {
         JsonReader reader = new JsonReader(new InputStreamReader(mInFile));
         // Parse JsonReader into list of Repo using Gson
-        List<Food> alimentos = Arrays.asList(new Gson().fromJson(reader, Food[].class));
+        List<AlimentosFinales> alimentos = Arrays.asList(new Gson().fromJson(reader, AlimentosFinales[].class));
 
         AppExecutors.getInstance().mainThread().execute(new Runnable() {
             @Override
             public void run() {
-                mOnReposLoadedListener.onReposLoaded(alimentos);
+                mOnReposLoadedListener.onFoodLoaded(alimentos);
             }
         });
     }

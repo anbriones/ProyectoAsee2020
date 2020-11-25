@@ -11,8 +11,6 @@ import com.example.fithealth.roomdatabase.tipoConverter;
 
 @Entity(tableName = "alimento")
 public class Alimento {
-
-
     @Ignore
     public final static String ID = "id";
     @Ignore
@@ -21,9 +19,6 @@ public class Alimento {
     public final static String CALORIAS = "calorias";
     @Ignore
     public final static String GRAMOS = "gramos";
-
-
-
 
     @PrimaryKey(autoGenerate = true)
     private long id;

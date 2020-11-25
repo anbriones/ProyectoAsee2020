@@ -28,8 +28,6 @@ public class Comida {
 
     public enum Tipo{desayuno,comida,cena};
 
-
-
     @PrimaryKey(autoGenerate = true)
     private long id;
     @TypeConverters(tipoConverter.class)

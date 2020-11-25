@@ -68,15 +68,12 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
     @Override
     public MyAdapterJson.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
-        // create a new view
-        // Create new views (invoked by the layout manager)
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.listado, parent, false);
 
         return new MyAdapterJson.MyViewHolder(v);
     }
-
-
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
