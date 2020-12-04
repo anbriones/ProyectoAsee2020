@@ -9,9 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.example.fithealth.lecturaJson.AlimentosFinales;
-import com.example.fithealth.roomdatabase.Alimento;
+import com.example.fithealth.datos.model.AlimentosFinales;
 
 import java.util.List;
 
@@ -123,6 +121,10 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
 
     public void swap(List<AlimentosFinales> dataset){
         mDataset = dataset;
+        notifyDataSetChanged();
+    }
+    public void clear(){
+        mDataset.clear();
         notifyDataSetChanged();
     }
 }

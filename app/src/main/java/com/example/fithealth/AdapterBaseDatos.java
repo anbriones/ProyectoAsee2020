@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fithealth.roomdatabase.Alimento;
-import com.example.fithealth.roomdatabase.AlimentoEnComida;
-import com.example.fithealth.roomdatabase.Comida;
+import com.example.fithealth.datos.model.Alimento;
+import com.example.fithealth.datos.model.AlimentoEnComida;
+import com.example.fithealth.datos.model.Comida;
 
 import java.util.ArrayList;
 import java.util.List;

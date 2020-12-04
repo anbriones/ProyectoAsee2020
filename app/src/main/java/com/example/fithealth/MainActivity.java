@@ -1,15 +1,14 @@
 package com.example.fithealth;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setContentView(R.layout.activity_main);
+
     //Text view de la fecha
         Date myDate = new Date();
         String myString = DateFormat.getDateInstance().format(myDate);
@@ -41,33 +40,23 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(myString);
 
         ImageButton usuario = findViewById(R.id.userimage);
-        usuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Usuario.class);
-                startActivity(intent);
-            }
+        usuario.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, Usuario.class);
+            startActivity(intent);
         });
 
         ImageButton historical = findViewById(R.id.historial);
-        historical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intenthistorial = new Intent(MainActivity.this, Historial.class);
-                startActivity(intenthistorial);
-            }
+        historical.setOnClickListener(view -> {
+            Intent intenthistorial = new Intent(MainActivity.this, Historial.class);
+            startActivity(intenthistorial);
         });
 
 
         ImageButton diariob = findViewById(R.id.diario);
-        diariob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentdiario = new Intent(MainActivity.this, Diario.class);
-                startActivity(intentdiario);
-            }
+        diariob.setOnClickListener(view -> {
+            Intent intentdiario = new Intent(MainActivity.this, Diario.class);
+            startActivity(intentdiario);
         });
-
 
 
     }

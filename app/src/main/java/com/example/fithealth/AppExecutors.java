@@ -1,4 +1,4 @@
-package com.example.fithealth.ui.lecturaAPI;
+package com.example.fithealth;
 
 import android.os.Handler;
 import android.os.Looper;

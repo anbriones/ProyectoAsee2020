@@ -1,8 +1,6 @@
-package com.example.fithealth.roomdatabase;
+package com.example.fithealth.datos.model;
 
 import androidx.room.TypeConverter;
-
-import com.example.fithealth.roomdatabase.Comida;
 
 public class tipoConverter {
     @TypeConverter

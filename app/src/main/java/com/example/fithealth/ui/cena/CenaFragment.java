@@ -4,44 +4,42 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.fithealth.AdapterBaseDatos;
-
+import com.example.fithealth.AppExecutors;
 import com.example.fithealth.MyAdapterJson;
 import com.example.fithealth.R;
-import com.example.fithealth.roomdatabase.Alimento;
-import com.example.fithealth.roomdatabase.AlimentoEnComida;
-import com.example.fithealth.roomdatabase.Comida;
-import com.example.fithealth.roomdatabase.Comidasdatabase;
+import com.example.fithealth.datos.AlimentoRepository;
+import com.example.fithealth.datos.lecturaapi.AlimentosNetworkDataSource;
+import com.example.fithealth.datos.lecturaapi.OnFoodLoadedListener;
+import com.example.fithealth.datos.model.Alimento;
+import com.example.fithealth.datos.model.AlimentoEnComida;
+import com.example.fithealth.datos.model.AlimentosFinales;
+import com.example.fithealth.datos.model.Comida;
+import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
 
-import com.example.fithealth.lecturaJson.AlimentosFinales;
-import com.example.fithealth.ui.cena.NotificationsViewModel;
-import com.example.fithealth.ui.lecturaAPI.AlimentosNetworkLoaderRunnable;
-import com.example.fithealth.ui.lecturaAPI.AppExecutors;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-
-
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class CenaFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener {
+public class CenaFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener, OnFoodLoadedListener {
     private NotificationsViewModel notificationsViewModel;
 
+    private AlimentoRepository mRepository;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ProgressBar mProgressBar;
     private RecyclerView recyclerView;
     private MyAdapterJson mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -51,22 +49,40 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
     private RecyclerView.LayoutManager layoutManager2;
 
 
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_comidas, container, false);
-
-        recyclerView = (RecyclerView) root.findViewById(R.id.listadoElemcena);
+         recyclerView = (RecyclerView) root.findViewById(R.id.listadoElemcena);
         assert (recyclerView) != null;
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new MyAdapterJson(new ArrayList<AlimentosFinales>(), this);
-        AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable((aliments) -> mAdapter.swap(aliments)));
+      //  AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable((aliments) -> mAdapter.swap(aliments)));
         recyclerView.setAdapter(mAdapter);
 
+        //Instancio el repositorio
+        mRepository = AlimentoRepository.getInstance(AlimentosNetworkDataSource.getInstance().getInstance(), Comidasdatabase.getInstance(this.getActivity()).daoAlimentojson());
+        //Obtengo los datos del livedata cuando cambien, el livedate devuelve un estado no los datos en sí
+        mRepository.getcurrentalimentos().observe(this.getActivity(), new Observer<List<AlimentosFinales>>() {
+            @Override
+            public void onChanged(List<AlimentosFinales> alimentosFinales) {
+                onFoodLoaded(alimentosFinales);
+            }
+        });
+
+        mSwipeRefreshLayout = this.getActivity().findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRepository.doFetchAlimentos();
+            }
+        });
 
         recyclerView2 = (RecyclerView) root.findViewById(R.id.escogidoscena);
         assert (recyclerView2) != null;
@@ -76,7 +92,7 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
         mAdapter2 = new AdapterBaseDatos(getActivity().getApplicationContext(), this::onListInteractionBD);
 
         recyclerView2.setAdapter(mAdapter2);
-        Comidasdatabase.getInstance(getActivity());
+
 
         return root;
     }
@@ -133,9 +149,9 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
             @Override
             public void run() {
                 Long id_alim = Comidasdatabase.getInstance(getActivity()).daoAlim().addalimento(aliment);
-                Long id_comida = Comidasdatabase.getInstance(getActivity()).daoAlim().addcomida(comida);
+                Long id_comida = Comidasdatabase.getInstance(getActivity()).daoComidas().addcomida(comida);
                 AlimentoEnComida alimencomida = new AlimentoEnComida(id_alim, id_comida);
-                Comidasdatabase.getInstance(getActivity()).daoAlim().addalimcomida(alimencomida);
+                Comidasdatabase.getInstance(getActivity()).daoAlimentosEnComida().addalimcomida(alimencomida);
                 getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
 
                 loadAlimentos();
@@ -148,7 +164,6 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
 
         });
     }
-
 
 
     @Override
@@ -173,8 +188,7 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
                 if (calories != null) {
                     TextView text = getActivity().findViewById(R.id.totalcena);
                     getActivity().runOnUiThread(() -> text.setText(calories.toString()));
-                }
-                else{
+                } else {
                     TextView text = getActivity().findViewById(R.id.totalcena);
                     getActivity().runOnUiThread(() -> text.setText("0"));
                 }
@@ -189,7 +203,6 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
         super.onPause();
 
 
-
     }
 
     @Override
@@ -199,20 +212,20 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
     }
 
     private void loadAlimentos() {
-        Date    mDate = new Date();
-        mDate = new Date(mDate.getTime() );
+        Date mDate = new Date();
+        mDate = new Date(mDate.getTime());
 
         Calendar c = Calendar.getInstance();
         c.setTime(mDate);
 
-        Integer  dia=c.get(Calendar.DAY_OF_MONTH);
-        Integer mes=c.get(Calendar.MONTH);
-        Integer año=c.get(Calendar.YEAR);
+        Integer dia = c.get(Calendar.DAY_OF_MONTH);
+        Integer mes = c.get(Calendar.MONTH);
+        Integer año = c.get(Calendar.YEAR);
 
-        Integer diasmas=dia+1;
+        Integer diasmas = dia + 1;
 
-        GregorianCalendar gc = new GregorianCalendar(año,mes,dia);
-        GregorianCalendar gc2 = new GregorianCalendar(año,mes,diasmas);
+        GregorianCalendar gc = new GregorianCalendar(año, mes, dia);
+        GregorianCalendar gc2 = new GregorianCalendar(año, mes, diasmas);
 
         long timeStamp = gc.getTimeInMillis();
         long timeStamp2 = gc2.getTimeInMillis();
@@ -220,7 +233,7 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                List<Alimento> items = Comidasdatabase.getInstance(getActivity().getApplicationContext()).daoAlim().getAlldiarias("cena",timeStamp,timeStamp2);
+                List<Alimento> items = Comidasdatabase.getInstance(getActivity().getApplicationContext()).daoAlim().getAlldiarias("cena", timeStamp, timeStamp2);
                 getActivity().runOnUiThread(() -> mAdapter2.load(items));
 
             }
@@ -231,40 +244,40 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
     @Override
     public void onListInteractionBD(long alim) {
         //   long idalim= alim.getId();
-        String id=Long.toString(alim);
+        String id = Long.toString(alim);
 
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-
-                Alimento alimento= Comidasdatabase.getInstance(getActivity()).daoAlim().obteneralimento(alim);
+                Alimento alimento = Comidasdatabase.getInstance(getActivity()).daoAlim().obteneralimento(alim);
                 getActivity().runOnUiThread(() -> mAdapter2.eliminaralimento(alimento));
                 Comidasdatabase.getInstance(getActivity()).daoAlim().deletealimento(alimento);
 
                 loadAlimentos();
-
                 calcularcalorias();
-                long idcomida=   Comidasdatabase.getInstance(getActivity()).daoAlim().obteneridcomida(alim);
+                long idcomida = Comidasdatabase.getInstance(getActivity()).daoComidas().obteneridcomida(alim);
 
-                List<Comida> comidas =  Comidasdatabase.getInstance(getActivity()).daoAlim().obtenercomidas( idcomida);
+                List<Comida> comidas = Comidasdatabase.getInstance(getActivity()).daoComidas().obtenercomidas(idcomida);
 
-                List<AlimentoEnComida> alimencomidas=   Comidasdatabase.getInstance(getActivity()).daoAlim().obteneralimentos(alim,idcomida);
+                List<AlimentoEnComida> alimencomidas = Comidasdatabase.getInstance(getActivity()).daoAlimentosEnComida().obteneralimentos(alim, idcomida);
                 for (int i = 0; i < comidas.size(); i++) {
-                    Comidasdatabase.getInstance(getActivity()).daoAlim().deletecomida(comidas.get(i));
+                    Comidasdatabase.getInstance(getActivity()).daoComidas().deletecomida(comidas.get(i));
                 }
                 for (int i = 0; i < alimencomidas.size(); i++) {
-                    Comidasdatabase.getInstance(getActivity()).daoAlim().deletealimentoencomida(alimencomidas.get(i));
+                    Comidasdatabase.getInstance(getActivity()).daoAlimentosEnComida().deletealimentoencomida(alimencomidas.get(i));
                 }
-
 
 
             }
         });
 
+    }
 
 
+    @Override
+    public void onFoodLoaded(List<AlimentosFinales> alimentosFinales) {
+        mSwipeRefreshLayout.setRefreshing(false);
+       this.getActivity().runOnUiThread(() -> mAdapter.swap(alimentosFinales));
     }
 }
-
-

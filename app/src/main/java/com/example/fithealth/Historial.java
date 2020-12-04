@@ -1,9 +1,5 @@
 package com.example.fithealth;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,9 +7,12 @@ import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
-import com.example.fithealth.roomdatabase.Alimento;
-import com.example.fithealth.roomdatabase.Comidasdatabase;
-import com.example.fithealth.ui.lecturaAPI.AppExecutors;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fithealth.datos.model.Alimento;
+import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,8 +26,7 @@ public class Historial extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Para que no se pueda voltear
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial);
 

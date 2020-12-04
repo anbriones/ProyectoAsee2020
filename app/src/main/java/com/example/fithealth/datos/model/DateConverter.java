@@ -1,7 +1,6 @@
-package com.example.fithealth.roomdatabase;
+package com.example.fithealth.datos.model;
 
 import androidx.room.TypeConverter;
-
 
 import java.util.Date;
 public class DateConverter {

@@ -1,13 +1,8 @@
-package com.example.fithealth.roomdatabase;
+package com.example.fithealth.datos.model;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
-
-import java.util.List;
 
 @Entity(tableName = "alimentoencomida")
 public class AlimentoEnComida {

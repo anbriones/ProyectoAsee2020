@@ -1,32 +1,52 @@
 
-package com.example.fithealth.lecturaJson;
+package com.example.fithealth.datos.model;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName="alimentojson")
 public class AlimentosFinales {
 
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
+    @Expose
+    private long id;
     @SerializedName("nombreprod")
     @Expose
+    @ColumnInfo(name = "nombreprod")
     private String nombreprod;
-    @SerializedName("tipo")
-    @Expose
-    private String tipo;
     @SerializedName("unidad")
     @Expose
+    @ColumnInfo(name = "unidad")
     private String unidad;
     @SerializedName("cantidad")
     @Expose
+    @ColumnInfo(name = "cantidad")
     private Integer cantidad;
     @SerializedName("calorias")
     @Expose
+    @ColumnInfo(name = "calorias")
     private Integer calorias;
     @SerializedName("proteinas")
     @Expose
+    @ColumnInfo(name = "proteinas")
     private Double proteinas;
-    @SerializedName("Hidratos de Carbono")
+    @SerializedName("hidratosdecarbono")
     @Expose
+    @ColumnInfo(name = "hidratosdecarbono")
     private Integer hidratosDeCarbono;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getNombreprod() {
         return nombreprod;
@@ -36,15 +56,7 @@ public class AlimentosFinales {
         this.nombreprod = nombreprod;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getUnidad() {
+   public String getUnidad() {
         return unidad;
     }
 

@@ -1,13 +1,9 @@
-package com.example.fithealth.roomdatabase;
+package com.example.fithealth.datos.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.fithealth.roomdatabase.DateConverter;
-import com.example.fithealth.roomdatabase.tipoConverter;
 
 @Entity(tableName = "alimento")
 public class Alimento {
