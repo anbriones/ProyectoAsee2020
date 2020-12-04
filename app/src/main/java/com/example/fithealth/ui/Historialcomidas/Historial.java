@@ -1,16 +1,24 @@
-package com.example.fithealth;
+package com.example.fithealth.ui.Historialcomidas;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fithealth.Adaptercomidashistorial;
+import com.example.fithealth.AppContainer;
+import com.example.fithealth.AppExecutors;
+import com.example.fithealth.InjectorUtils;
+import com.example.fithealth.MyApplication;
+import com.example.fithealth.R;
 import com.example.fithealth.datos.model.Alimento;
 import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
 
@@ -30,17 +38,25 @@ public class Historial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial);
 
-
         recyclerView2 = (RecyclerView) findViewById(R.id.escogidoscalendar);
         assert (recyclerView2) != null;
         recyclerView2.setHasFixedSize(true);
         layoutManager2 = new LinearLayoutManager(this);
         recyclerView2.setLayoutManager(layoutManager2);
-          adapter = new Adaptercomidashistorial(this);
+        adapter = new Adaptercomidashistorial(this);
 
         recyclerView2.setAdapter(adapter);
         //Al ser un singleton solo se le llama una vez
-        Comidasdatabase.getInstance(this);
+
+        HistorialViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactoryhistorial(getApplicationContext());
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+
+        HistorialViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryhistorial).get(HistorialViewModel.class);
+        mViewModel.getMalimentosfinales().observe(this, alimentos -> {
+            adapter.swap(alimentos);
+            if(alimentos!=null)
+            recyclerView2.setVisibility(View.VISIBLE);
+        });
 
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendario);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -61,8 +77,7 @@ public class Historial extends AppCompatActivity {
 
 
 
-                cargaralimentos(timeStamp,timeStamp2);
-
+               mViewModel.setfecha(timeStamp,timeStamp2);
             }
         });
     }

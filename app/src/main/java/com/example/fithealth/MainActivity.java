@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.fithealth.ui.Historialcomidas.Historial;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;

@@ -1,6 +1,7 @@
 
 package com.example.fithealth.datos.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -11,12 +12,11 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName="alimentojson")
 public class AlimentosFinales {
 
-    @PrimaryKey(autoGenerate = true)
-    @SerializedName("id")
-    @Expose
-    private long id;
+
     @SerializedName("nombreprod")
     @Expose
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "nombreprod")
     private String nombreprod;
     @SerializedName("unidad")
@@ -40,13 +40,7 @@ public class AlimentosFinales {
     @ColumnInfo(name = "hidratosdecarbono")
     private Integer hidratosDeCarbono;
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getNombreprod() {
         return nombreprod;

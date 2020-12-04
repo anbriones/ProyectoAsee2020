@@ -96,9 +96,12 @@ public class Adaptercomidashistorial extends RecyclerView.Adapter<Adaptercomidas
     }
 
     public void load(List<Alimento> items) {
-
         mDataset = items;
         notifyDataSetChanged();
 
+    }
+    public void swap(List<Alimento> dataset){
+        mDataset = dataset;
+        notifyDataSetChanged();
     }
 }

@@ -14,11 +14,10 @@ public class AlimentosNetworkDataSource {
     private static final String LOG_TAG =AlimentosNetworkDataSource.class.getSimpleName();
     private static AlimentosNetworkDataSource sInstance;
     // LiveData storing the latest downloaded weather forecasts
-    private final MutableLiveData<AlimentosFinales[]> mDownloadedAlimentos;
-
+    private final MutableLiveData<AlimentosFinales[]> mDownloadedAlimentosfinales;
 
     private  AlimentosNetworkDataSource() {
-        mDownloadedAlimentos = new MutableLiveData<>();
+        mDownloadedAlimentosfinales = new MutableLiveData<>();
     }
 
     public synchronized static AlimentosNetworkDataSource getInstance() {
@@ -30,18 +29,24 @@ public class AlimentosNetworkDataSource {
         return sInstance;
     }
 
-    public LiveData<AlimentosFinales[]> getCurrentAlimentos() {
-        return mDownloadedAlimentos;
+
+
+    public LiveData<AlimentosFinales[]> getCurrentAlimentosfinales() {
+        return mDownloadedAlimentosfinales;
     }
 
     public void fetchAlimentos() {
         Log.d(LOG_TAG, "Fetch alimentos started");
         // Get gata from network and pass it to LiveData
         AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable( alimentosFinales ->
-                mDownloadedAlimentos.postValue(alimentosFinales.toArray(new AlimentosFinales[0]))));
-            }
+                mDownloadedAlimentosfinales.postValue(alimentosFinales.toArray(new AlimentosFinales[0]))));
+
+
+    }
 
 }
+
+
 
 
 

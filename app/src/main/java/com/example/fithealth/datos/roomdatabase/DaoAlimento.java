@@ -1,5 +1,6 @@
 package com.example.fithealth.datos.roomdatabase;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -41,6 +42,13 @@ public interface DaoAlimento {
             " WHERE date between  :from AND :to ")
     public List <Alimento> getAllfecha(Long from,Long to);
 
+    //Devuelve una lista de todos los alimentos consumidos en una día específico
+    @Query("SELECT * FROM Alimento "+
+            "INNER JOIN AlimentoEnComida  ON AlimentoEnComida.idalimento = Alimento.id "+
+            "INNER JOIN Comida ON Comida.id = AlimentoEnComida.idcomida " +
+            " WHERE date between  :from AND :to ")
+    LiveData<List<Alimento>> getAllfechalivedata(Long from,Long to);
+   
     @Query("SELECT * FROM Alimento "+
             " WHERE  id like:idalim")
     public Alimento obteneralimento(Long idalim);

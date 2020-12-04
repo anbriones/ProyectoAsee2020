@@ -15,7 +15,7 @@ import static androidx.room.OnConflictStrategy.REPLACE;
 @Dao
     public interface DaoAlimentojson {
         @Insert(onConflict = REPLACE)
-        void insertarAlimento(List<AlimentosFinales> repo);
+        void insertarAlimento(List<AlimentosFinales> alimentosFinales);
 
         @Query("SELECT * FROM alimentojson")
         LiveData<List<AlimentosFinales>> getalimentosfinales();

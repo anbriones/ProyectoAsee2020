@@ -13,13 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fithealth.AdapterBaseDatos;
+import com.example.fithealth.AppContainer;
 import com.example.fithealth.AppExecutors;
+import com.example.fithealth.InjectorUtils;
 import com.example.fithealth.MyAdapterJson;
+import com.example.fithealth.MyApplication;
 import com.example.fithealth.R;
-import com.example.fithealth.datos.lecturaapi.AlimentosNetworkLoaderRunnable;
-import com.example.fithealth.datos.model.AlimentosFinales;
+import com.example.fithealth.datos.AlimentoRepository;
+import com.example.fithealth.datos.lecturaapi.OnFoodLoadedListener;
 import com.example.fithealth.datos.model.Alimento;
 import com.example.fithealth.datos.model.AlimentoEnComida;
+import com.example.fithealth.datos.model.AlimentosFinales;
 import com.example.fithealth.datos.model.Comida;
 import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
 
@@ -29,9 +33,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener {
+public class HomeFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener, OnFoodLoadedListener {
     private HomeViewModel homeViewModel;
 
+    private AlimentoRepository mRepository;
     private RecyclerView recyclerView;
     private MyAdapterJson mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -43,8 +48,7 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_comidas, container, false);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.listadoElemcena);
@@ -52,12 +56,17 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-
-
         mAdapter = new MyAdapterJson(new ArrayList<AlimentosFinales>(), this);
-         AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable((aliments) -> mAdapter.swap(aliments)));
-        recyclerView.setAdapter(mAdapter);
+       recyclerView.setAdapter(mAdapter);
+        HomeViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactoryhome(this.getActivity().getApplicationContext());
+        AppContainer appContainer = ((MyApplication) this.getActivity().getApplication()).appContainer;
 
+        HomeViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
+        mViewModel.getMalimentosfinales().observe(this.getActivity(), alimentos -> {
+            mAdapter.swap(alimentos);
+            // Show the repo list or the loading screen based on whether the repos data exists and is loaded
+            recyclerView.setVisibility(View.VISIBLE);
+        });
 
         recyclerView2 = (RecyclerView) root.findViewById(R.id.escogidoscena);
         assert (recyclerView2) != null;
@@ -129,7 +138,7 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
                 Comidasdatabase.getInstance(getActivity()).daoAlimentosEnComida().addalimcomida(alimencomida);
                 getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
 
-                    loadAlimentos();
+                loadAlimentos();
                 final Integer calories = Comidasdatabase.getInstance(getActivity().getApplicationContext()).daoAlim().getcaloriastotales("desayuno", f1, f2);
                 if (calories != 0) {
                     TextView text = getActivity().findViewById(R.id.totalcena);
@@ -149,7 +158,7 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
 
         if (mAdapter2.getItemCount() == 0)
             loadAlimentos();
-calcularcalorias();
+        calcularcalorias();
     }
 
     public void calcularcalorias() {
@@ -204,21 +213,21 @@ calcularcalorias();
         long timeStamp = gc.getTimeInMillis();
         long timeStamp2 = gc2.getTimeInMillis();
 
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    List<Alimento> items = Comidasdatabase.getInstance(getActivity().getApplicationContext()).daoAlim().getAlldiarias("desayuno", timeStamp, timeStamp2);
-                    getActivity().runOnUiThread(() -> mAdapter2.load(items));
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Alimento> items = Comidasdatabase.getInstance(getActivity().getApplicationContext()).daoAlim().getAlldiarias("desayuno", timeStamp, timeStamp2);
+                getActivity().runOnUiThread(() -> mAdapter2.load(items));
 
-                }
-            });
-        }
+            }
+        });
+    }
 
 
 
     @Override
     public void onListInteractionBD(long alim) {
-     //   long idalim= alim.getId();
+        //   long idalim= alim.getId();
         String id=Long.toString(alim);
 
 
@@ -226,7 +235,7 @@ calcularcalorias();
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-               Alimento alimento= Comidasdatabase.getInstance(getActivity()).daoAlim().obteneralimento(alim);
+                Alimento alimento= Comidasdatabase.getInstance(getActivity()).daoAlim().obteneralimento(alim);
                 getActivity().runOnUiThread(() -> mAdapter2.eliminaralimento(alimento));
                 Comidasdatabase.getInstance(getActivity()).daoAlim().deletealimento(alimento);
 
@@ -252,6 +261,10 @@ calcularcalorias();
 
 
     }
+
+    @Override
+    public void onFoodLoaded(List<AlimentosFinales> alimentosFinales) {
+        //  mSwipeRefreshLayout.setRefreshing(false);
+        this.getActivity().runOnUiThread(() -> mAdapter.swap(alimentosFinales));
     }
-
-
+}

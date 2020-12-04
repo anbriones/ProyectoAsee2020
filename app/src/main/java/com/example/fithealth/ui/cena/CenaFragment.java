@@ -4,23 +4,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.fithealth.AdapterBaseDatos;
+import com.example.fithealth.AppContainer;
 import com.example.fithealth.AppExecutors;
+import com.example.fithealth.InjectorUtils;
 import com.example.fithealth.MyAdapterJson;
+import com.example.fithealth.MyApplication;
 import com.example.fithealth.R;
 import com.example.fithealth.datos.AlimentoRepository;
-import com.example.fithealth.datos.lecturaapi.AlimentosNetworkDataSource;
 import com.example.fithealth.datos.lecturaapi.OnFoodLoadedListener;
 import com.example.fithealth.datos.model.Alimento;
 import com.example.fithealth.datos.model.AlimentoEnComida;
@@ -35,11 +34,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class CenaFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener, OnFoodLoadedListener {
-    private NotificationsViewModel notificationsViewModel;
+    private CenaViewModel cenaViewModel;
 
     private AlimentoRepository mRepository;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ProgressBar mProgressBar;
+
     private RecyclerView recyclerView;
     private MyAdapterJson mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -53,8 +51,7 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_comidas, container, false);
          recyclerView = (RecyclerView) root.findViewById(R.id.listadoElemcena);
         assert (recyclerView) != null;
@@ -66,22 +63,14 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
       //  AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable((aliments) -> mAdapter.swap(aliments)));
         recyclerView.setAdapter(mAdapter);
 
-        //Instancio el repositorio
-        mRepository = AlimentoRepository.getInstance(AlimentosNetworkDataSource.getInstance().getInstance(), Comidasdatabase.getInstance(this.getActivity()).daoAlimentojson());
-        //Obtengo los datos del livedata cuando cambien, el livedate devuelve un estado no los datos en sí
-        mRepository.getcurrentalimentos().observe(this.getActivity(), new Observer<List<AlimentosFinales>>() {
-            @Override
-            public void onChanged(List<AlimentosFinales> alimentosFinales) {
-                onFoodLoaded(alimentosFinales);
-            }
-        });
+        CenaViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactorycena(this.getActivity().getApplicationContext());
+        AppContainer appContainer = ((MyApplication) this.getActivity().getApplication()).appContainer;
 
-        mSwipeRefreshLayout = this.getActivity().findViewById(R.id.swipeRefreshLayout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mRepository.doFetchAlimentos();
-            }
+        CenaViewModel mViewModel = new ViewModelProvider(this, appContainer.factorycena).get(CenaViewModel.class);
+        mViewModel.getMalimentosfinales().observe(this.getActivity(), alimentos -> {
+            mAdapter.swap(alimentos);
+            // Show the repo list or the loading screen based on whether the repos data exists and is loaded
+            recyclerView.setVisibility(View.VISIBLE);
         });
 
         recyclerView2 = (RecyclerView) root.findViewById(R.id.escogidoscena);
@@ -277,7 +266,7 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     @Override
     public void onFoodLoaded(List<AlimentosFinales> alimentosFinales) {
-        mSwipeRefreshLayout.setRefreshing(false);
+      //  mSwipeRefreshLayout.setRefreshing(false);
        this.getActivity().runOnUiThread(() -> mAdapter.swap(alimentosFinales));
     }
 }

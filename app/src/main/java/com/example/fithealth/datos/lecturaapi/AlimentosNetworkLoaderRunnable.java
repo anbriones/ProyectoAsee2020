@@ -1,5 +1,7 @@
 package com.example.fithealth.datos.lecturaapi;
 
+import android.util.Log;
+
 import com.example.fithealth.AppExecutors;
 import com.example.fithealth.datos.model.AlimentosFinales;
 
@@ -13,6 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AlimentosNetworkLoaderRunnable implements Runnable{
+    private static final String LOG_TAG = AlimentosNetworkLoaderRunnable.class.getSimpleName();
     private final OnFoodLoadedListener mOnFoodLoadedListener;
 
     public AlimentosNetworkLoaderRunnable(OnFoodLoadedListener onFoodLoadedListener){
@@ -32,6 +35,7 @@ public class AlimentosNetworkLoaderRunnable implements Runnable{
 
             Response<List<AlimentosFinales>> response = call.execute();
             List<AlimentosFinales> alimentos = response.body() == null ? new ArrayList<>() : response.body();
+            AppExecutors.getInstance().mainThread().execute(() -> Log.d(LOG_TAG, "Cargados"+alimentos.size()));
             AppExecutors.getInstance().mainThread().execute(() -> mOnFoodLoadedListener.onFoodLoaded(alimentos));
 
 

@@ -11,15 +11,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.fithealth.AdapterBaseDatos;
+import com.example.fithealth.AppContainer;
 import com.example.fithealth.AppExecutors;
+import com.example.fithealth.InjectorUtils;
 import com.example.fithealth.MyAdapterJson;
+import com.example.fithealth.MyApplication;
 import com.example.fithealth.R;
-import com.example.fithealth.datos.lecturaapi.AlimentosNetworkLoaderRunnable;
-import com.example.fithealth.datos.model.AlimentosFinales;
+import com.example.fithealth.datos.AlimentoRepository;
+import com.example.fithealth.datos.lecturaapi.OnFoodLoadedListener;
 import com.example.fithealth.datos.model.Alimento;
 import com.example.fithealth.datos.model.AlimentoEnComida;
+import com.example.fithealth.datos.model.AlimentosFinales;
 import com.example.fithealth.datos.model.Comida;
 import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
 
@@ -29,9 +34,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class ComidaFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener {
-    private DashboardViewModel dashboardViewModel;
+public class ComidaFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener, OnFoodLoadedListener {
+    private ComidaViewModel comidaViewModel;
 
+    private AlimentoRepository mRepository;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
     private MyAdapterJson mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -43,8 +50,7 @@ public class ComidaFragment extends Fragment implements MyAdapterJson.OnListInte
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_comidas, container, false);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.listadoElemcena);
@@ -54,9 +60,18 @@ public class ComidaFragment extends Fragment implements MyAdapterJson.OnListInte
         recyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new MyAdapterJson(new ArrayList<AlimentosFinales>(), this);
-        AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable((aliments) -> mAdapter.swap(aliments)));
         recyclerView.setAdapter(mAdapter);
 
+
+        ComidaViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactorycomida(this.getActivity().getApplicationContext());
+        AppContainer appContainer = ((MyApplication) this.getActivity().getApplication()).appContainer;
+
+        ComidaViewModel mViewModel = new ViewModelProvider(this, appContainer.factorycomida).get(ComidaViewModel.class);
+        mViewModel.getMalimentosfinales().observe(this.getActivity(), alimentos -> {
+            mAdapter.swap(alimentos);
+            // Show the repo list or the loading screen based on whether the repos data exists and is loaded
+            recyclerView.setVisibility(View.VISIBLE);
+        });
 
         recyclerView2 = (RecyclerView) root.findViewById(R.id.escogidoscena);
         assert (recyclerView2) != null;
@@ -252,6 +267,13 @@ public class ComidaFragment extends Fragment implements MyAdapterJson.OnListInte
         });
 
     }
+
+    @Override
+    public void onFoodLoaded(List<AlimentosFinales> alimentosFinales) {
+      //  mSwipeRefreshLayout.setRefreshing(false);
+        this.getActivity().runOnUiThread(() -> mAdapter.swap(alimentosFinales));
+    }
 }
+
 
 
