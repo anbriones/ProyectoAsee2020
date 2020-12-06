@@ -19,6 +19,9 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
     private List<AlimentosFinales> mDataset;
     Context context;
     Integer gramos;
+
+
+
     public interface OnListInteractionListener{
         public void onListInteraction(String nombre, Integer calorias,Integer cantidad ,String unidad);
 

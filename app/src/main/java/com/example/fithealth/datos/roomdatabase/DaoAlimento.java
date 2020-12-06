@@ -20,6 +20,19 @@ public interface DaoAlimento {
             "INNER JOIN Comida ON Comida.id = AlimentoEnComida.idcomida " +
             " WHERE Comida.tipo LIKE :tipo and date between  :from AND :to ")
     public List<Alimento> getAlldiarias(String tipo, Long from, Long to);
+    // Consulta que devuelve todos los alimentos ingeridos en una comida especifica entre dos fechas dadas
+    @Query("SELECT * FROM Alimento "+
+            "INNER JOIN AlimentoEnComida  ON AlimentoEnComida.idalimento = Alimento.id "+
+            "INNER JOIN Comida ON Comida.id = AlimentoEnComida.idcomida " +
+            " WHERE Comida.tipo LIKE :tipo and date between  :from AND :to ")
+    public LiveData<List<Alimento>> getAlldiariascomidas(String tipo, Long from, Long to);
+
+    //Devuelve la suma de las calorias de los alimentos consumidos entre dos fechas indicadas en una comida específica(Desayuno,comida,cena)
+    @Query("SELECT SUM(calorias) from alimento " +
+            "INNER JOIN AlimentoEnComida  ON AlimentoEnComida.idalimento = Alimento.id "+
+            "INNER JOIN Comida ON Comida.id = AlimentoEnComida.idcomida " +
+            " WHERE Comida.tipo LIKE :tipo and date between  :from AND :to ")
+    public LiveData<Integer> getcaloriastotalescomidas(String tipo,Long from,Long to);
 
     //Devuelve la suma de las calorias de los alimentos consumidos entre dos fechas indicadas en una comida específica(Desayuno,comida,cena)
     @Query("SELECT SUM(calorias) from alimento " +
@@ -33,7 +46,7 @@ public interface DaoAlimento {
             "INNER JOIN AlimentoEnComida  ON AlimentoEnComida.idalimento = Alimento.id "+
             "INNER JOIN Comida ON Comida.id = AlimentoEnComida.idcomida " +
             " WHERE  date between  :from AND :to ")
-    public Integer getAllcaloriasfecha(Long from,Long to);
+    public LiveData<Integer >getAllcaloriasfecha(Long from,Long to);
 
     //Devuelve una lista de todos los alimentos consumidos en una día específico
     @Query("SELECT * FROM Alimento "+
@@ -42,17 +55,24 @@ public interface DaoAlimento {
             " WHERE date between  :from AND :to ")
     public List <Alimento> getAllfecha(Long from,Long to);
 
+
+
     //Devuelve una lista de todos los alimentos consumidos en una día específico
     @Query("SELECT * FROM Alimento "+
             "INNER JOIN AlimentoEnComida  ON AlimentoEnComida.idalimento = Alimento.id "+
             "INNER JOIN Comida ON Comida.id = AlimentoEnComida.idcomida " +
-            " WHERE date between  :from AND :to ")
+            " WHERE  date  between :from AND :to ")
     LiveData<List<Alimento>> getAllfechalivedata(Long from,Long to);
-   
+
     @Query("SELECT * FROM Alimento "+
             " WHERE  id like:idalim")
     public Alimento obteneralimento(Long idalim);
 
+    @Query("SELECT * FROM Alimento "+
+            "INNER JOIN AlimentoEnComida  ON AlimentoEnComida.idalimento = Alimento.id "+
+            "INNER JOIN Comida ON Comida.id = AlimentoEnComida.idcomida " +
+            " WHERE date between  :from AND :to ")
+    public int totalAlimentos(Long from,Long to);
     //Eliminar alimento
     @Delete
     public void deletealimento(Alimento alim);

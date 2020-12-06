@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -19,14 +20,11 @@ import com.example.fithealth.AppExecutors;
 import com.example.fithealth.InjectorUtils;
 import com.example.fithealth.MyApplication;
 import com.example.fithealth.R;
-import com.example.fithealth.datos.model.Alimento;
-import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
 
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class Historial extends AppCompatActivity {
-
+    private static final String LOG_TAG = Historial.class.getSimpleName();
     private RecyclerView recyclerView2;
     private RecyclerView.LayoutManager layoutManager2;
     private Adaptercomidashistorial adapter;
@@ -37,6 +35,8 @@ public class Historial extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Para que no se pueda voltear
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial);
+        TextView text = Historial.this.findViewById(R.id.totales);
+        TextView textcalorias = Historial.this.findViewById(R.id.caloriastotales);
 
         recyclerView2 = (RecyclerView) findViewById(R.id.escogidoscalendar);
         assert (recyclerView2) != null;
@@ -54,9 +54,26 @@ public class Historial extends AppCompatActivity {
         HistorialViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryhistorial).get(HistorialViewModel.class);
         mViewModel.getMalimentosfinales().observe(this, alimentos -> {
             adapter.swap(alimentos);
-            if(alimentos!=null)
+            AppExecutors.getInstance().mainThread().execute(() -> Log.d(LOG_TAG, "alimentos de fecha"+alimentos.size()));
+           if(alimentos!=null)
             recyclerView2.setVisibility(View.VISIBLE);
+           else{
+               recyclerView2.setVisibility(View.INVISIBLE);
+           }
         });
+
+        HistorialViewModel mViewModel2 = new ViewModelProvider(this, appContainer.factoryhistorial).get(HistorialViewModel.class);
+        mViewModel2.getCalorias().observe(this, calorias -> {
+                    if (calorias != null) {
+                        text.setText(calorias.toString());
+                        textcalorias.setText("calorias");
+                    }
+                    else{
+                        text.setText(" ");
+                        textcalorias.setText(" ");
+                    }
+                });
+
 
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendario);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -65,19 +82,13 @@ public class Historial extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
            int day=dayOfMonth+1;
-
-
-
-                GregorianCalendar gc = new GregorianCalendar(year,month,dayOfMonth);
+               GregorianCalendar gc = new GregorianCalendar(year,month,dayOfMonth);
                 GregorianCalendar gc2 = new GregorianCalendar(year,month,day);
-
-
                 long timeStamp = gc.getTimeInMillis();
                 long timeStamp2 = gc2.getTimeInMillis();
 
-
-
                mViewModel.setfecha(timeStamp,timeStamp2);
+
             }
         });
     }
@@ -108,38 +119,6 @@ public class Historial extends AppCompatActivity {
 
     }
 
-
-
-
-    public void cargaralimentos(long newDate,long newDate2) {
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    final Integer calories = Comidasdatabase.getInstance(Historial.this).daoAlim().getAllcaloriasfecha(newDate,newDate2);
-                    if(calories!=null) {
-                        TextView text = Historial.this.findViewById(R.id.totales);
-                        Historial.this.runOnUiThread(() -> text.setText(calories.toString()));
-                        TextView text2 = Historial.this.findViewById(R.id.caloriastotales);
-                        Historial.this.runOnUiThread(() -> text2.setText("calorias"));
-                    }
-                    else {
-                        TextView text = Historial.this.findViewById(R.id.totales);
-                        Historial.this.runOnUiThread(() -> text.setText(" "));
-                        TextView text2 = Historial.this.findViewById(R.id.caloriastotales);
-                        Historial.this.runOnUiThread(() -> text2.setText(" "));
-                    }
-                    List<Alimento> items = Comidasdatabase.getInstance(Historial.this).daoAlim().getAllfecha(newDate,newDate2);
-                    Historial.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.load(items);
-                        }
-                    });
-                }
-            });
-
-
-        }
     }
 
 

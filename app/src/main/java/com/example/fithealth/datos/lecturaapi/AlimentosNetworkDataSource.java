@@ -30,14 +30,13 @@ public class AlimentosNetworkDataSource {
     }
 
 
-
     public LiveData<AlimentosFinales[]> getCurrentAlimentosfinales() {
         return mDownloadedAlimentosfinales;
     }
 
     public void fetchAlimentos() {
         Log.d(LOG_TAG, "Fetch alimentos started");
-        // Get gata from network and pass it to LiveData
+        // Get data from network and pass it to LiveData
         AppExecutors.getInstance().networkIO().execute(new AlimentosNetworkLoaderRunnable( alimentosFinales ->
                 mDownloadedAlimentosfinales.postValue(alimentosFinales.toArray(new AlimentosFinales[0]))));
 

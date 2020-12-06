@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.fithealth.datos.AlimentoRepository;
 import com.example.fithealth.datos.lecturaapi.AlimentosNetworkDataSource;
 import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
-import com.example.fithealth.datos.roomdatabase.DaoAlimento;
 import com.example.fithealth.ui.Historialcomidas.HistorialViewModelFactory;
 import com.example.fithealth.ui.cena.CenaViewModelFactory;
 import com.example.fithealth.ui.comida.ComidaViewModelFactory;
@@ -19,8 +18,7 @@ public class InjectorUtils {
     public static AlimentoRepository provideRepository(Context context) {
         Comidasdatabase database = Comidasdatabase.getInstance(context.getApplicationContext());//Base de datos
         AlimentosNetworkDataSource networkDataSource = AlimentosNetworkDataSource.getInstance();//Fuente de datos remota
-        DaoAlimento daoAlimento = Comidasdatabase.getInstance(context.getApplicationContext()).daoAlim();
-        return AlimentoRepository.getInstance(networkDataSource,database.daoAlimentojson(),daoAlimento);
+        return AlimentoRepository.getInstance(networkDataSource,database.daoAlimentojson(),database.daoAlim(),database.daoComidas(),database.daoAlimentosEnComida());
     }
 
     public static HomeViewModelFactory provideMainActivityViewModelFactoryhome(Context context) {

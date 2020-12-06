@@ -12,28 +12,34 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class HistorialViewModel extends ViewModel {
-
     private final AlimentoRepository malimentorepository;
     private final LiveData<List<Alimento>> malimentosfinales;
+    public final LiveData<Integer> calorias;
     private long f1=fechaactual();
-    private long f2=fechaactualmas();
+    private long f2=fechaactualmas1();
 
 
-    public long fechaactualmas() {
-        Date mDate = new Date();
-        mDate = new Date(mDate.getTime());
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(mDate);
-
-        Integer dia = c.get(Calendar.DAY_OF_MONTH)+1;
-        Integer mes = c.get(Calendar.MONTH);
-        Integer año = c.get(Calendar.YEAR);
-
-        GregorianCalendar gc = new GregorianCalendar(año, mes, dia);
-
-        return gc.getTimeInMillis();
+    public HistorialViewModel(AlimentoRepository alimrepositorio) {
+        malimentorepository=alimrepositorio;
+        malimentosfinales=malimentorepository.getcurrentalimentosconsumidos();
+        calorias=malimentorepository.getcaloriastotales();
     }
+
+    public void setfecha(long f1,long f2){
+            this.f1=f1;
+            this.f2=f2;
+            malimentorepository.setFechas(f1,f2);
+    }
+
+    public LiveData<List<Alimento>> getMalimentosfinales() {
+        return malimentosfinales;
+    }
+
+    public LiveData<Integer> getCalorias() {
+        return calorias;
+    }
+
     public long fechaactual() {
         Date mDate = new Date();
         mDate = new Date(mDate.getTime());
@@ -49,21 +55,20 @@ public class HistorialViewModel extends ViewModel {
 
         return gc.getTimeInMillis();
     }
-    public HistorialViewModel(AlimentoRepository alimrepositorio) {
-        malimentorepository=alimrepositorio;
-        malimentosfinales=malimentorepository.getcurrentalimentosconsumidos();
-    }
 
-    public void setfecha(long f1,long f2){
-            this.f1=f1;
-            this.f2=f2;
-    }
+    public long fechaactualmas1() {
+        Date mDate = new Date();
+        mDate = new Date(mDate.getTime());
 
-    public void onRefresh() {
-        malimentorepository.doFetchAlimentosconsuimidos(f1,f2);
-    }
+        Calendar c = Calendar.getInstance();
+        c.setTime(mDate);
 
-    public LiveData<List<Alimento>> getMalimentosfinales() {
-        return malimentosfinales;
+        Integer dia = c.get(Calendar.DAY_OF_MONTH) + 1;
+        Integer mes = c.get(Calendar.MONTH);
+        Integer año = c.get(Calendar.YEAR);
+
+        GregorianCalendar gc = new GregorianCalendar(año, mes, dia);
+
+        return gc.getTimeInMillis();
     }
 }

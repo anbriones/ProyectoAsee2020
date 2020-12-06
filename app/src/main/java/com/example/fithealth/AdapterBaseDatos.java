@@ -23,6 +23,8 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
     private List<AlimentoEnComida> mDatasetAlimcomida=  new ArrayList<AlimentoEnComida>();
     Context context;
 
+
+
     public interface OnListInteractionListener{
         public void onListInteractionBD(long  alim);
     }
@@ -115,6 +117,10 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
 
     }
 
+    public void swap(List<Alimento> dataset){
+        mDataset = dataset;
+        notifyDataSetChanged();
+    }
 
 
 }
