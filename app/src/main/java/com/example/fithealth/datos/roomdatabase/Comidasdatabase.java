@@ -18,7 +18,7 @@ public abstract class Comidasdatabase extends RoomDatabase {
 
     public static Comidasdatabase getInstance(Context context){
         if(instance == null) {
-            instance = Room.databaseBuilder(context, Comidasdatabase.class, "comidasdatabase.db").build();
+            instance = Room.databaseBuilder(context, Comidasdatabase.class, "databasealimentos.db").build();
         }
         return instance;
     }

@@ -9,7 +9,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Diario extends AppCompatActivity  {
@@ -30,13 +29,12 @@ public class Diario extends AppCompatActivity  {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        Comidasdatabase.getInstance(this);
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Comidasdatabase.getInstance(this.getApplicationContext()).close();
+
     }
 }
+    

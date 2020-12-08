@@ -26,8 +26,14 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
         public void onListInteraction(String nombre, Integer calorias,Integer cantidad ,String unidad);
 
     }
+    public interface OnListInteractionListenerdetalle{
+        public void onListInteraction2(AlimentosFinales alim);
+
+    }
 
     public MyAdapterJson.OnListInteractionListener mListener;
+    public MyAdapterJson.OnListInteractionListenerdetalle mListener2;
+
 
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
@@ -41,13 +47,13 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
         public Button mbutonmas;
         public Button mbotonmenos;
         public Button maniadir;
-
+        public View mView;
 
         public AlimentosFinales mItem;
 
         public MyViewHolder(View v) {
             super(v);
-
+            mView=v;
             mTextView = v.findViewById(R.id.prodl);
             mTextView2 = v.findViewById(R.id.calorias);
             mTextView3 = v.findViewById(R.id.cantidada);
@@ -61,9 +67,10 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapterJson(List<AlimentosFinales> myDataset, MyAdapterJson.OnListInteractionListener listener) {
+    public MyAdapterJson(List<AlimentosFinales> myDataset, MyAdapterJson.OnListInteractionListener listener,MyAdapterJson.OnListInteractionListenerdetalle listenerdetalle) {
         mDataset = myDataset;
         mListener = listener;
+        mListener2=listenerdetalle;
     }
 
     @Override
@@ -85,6 +92,16 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
         holder.mTextView3.setText(mDataset.get(position).getCantidad().toString());
         holder.mTextView4.setText(mDataset.get(position).getUnidad());
 
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener2.onListInteraction2( mDataset.get(position));
+                }
+            }
+        });
 
         holder.mbutonmas.setOnClickListener(new View.OnClickListener() {
             @Override

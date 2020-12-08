@@ -26,7 +26,7 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
 
 
     public interface OnListInteractionListener{
-        public void onListInteractionBD(long  alim);
+        public void onListInteractionBD(long  alim,String nombre);
     }
 
     public AdapterBaseDatos.OnListInteractionListener mListener;
@@ -64,7 +64,7 @@ public class AdapterBaseDatos extends RecyclerView.Adapter<AdapterBaseDatos.View
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    mListener.onListInteractionBD(holder.mItem.getId());
+                    mListener.onListInteractionBD(holder.mItem.getId(),holder.mItem.getNombre());
 
                 }
             }

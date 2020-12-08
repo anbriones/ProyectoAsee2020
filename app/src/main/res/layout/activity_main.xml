@@ -13,44 +13,45 @@
         android:id="@+id/historial"
         android:layout_width="118dp"
         android:layout_height="124dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginBottom="44dp"
 
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="100dp"
         android:src="@drawable/historial"
-        app:layout_constraintBottom_toTopOf="@+id/diario"
-        app:layout_constraintEnd_toStartOf="@+id/Historialtext"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/diario"
+        app:layout_constraintTop_toBottomOf="@+id/caloriasmain" />
 
     <TextView
         android:id="@+id/diariotext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="124dp"
-        android:layout_marginRight="124dp"
+        android:layout_marginTop="20dp"
         android:text="@string/diario"
         android:textColor="#ED2EB7"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Historialtext"
-        app:layout_constraintVertical_bias="0.784" />
+        app:layout_constraintEnd_toStartOf="@+id/Historialtext"
+        app:layout_constraintHorizontal_bias="0.328"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diario"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/Historialtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Histórico de Comidas"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="132dp"
+        android:text="Historial"
         android:textColor="#ED2EB7"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/historial"
+        app:layout_constraintVertical_bias="0.277" />
 
     <ImageButton
         android:id="@+id/diario"
@@ -58,79 +59,79 @@
         android:layout_height="130dp"
         android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/diariotext"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/caloriasmain"
         app:srcCompat="@drawable/comida" />
 
     <ImageButton
         android:id="@+id/userimage"
         android:layout_width="106dp"
         android:layout_height="94dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginTop="80dp"
         android:src="@drawable/usuario"
-        app:layout_constraintBottom_toTopOf="@+id/historial"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.423"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:srcCompat="@drawable/usuario" />
 
     <TextView
         android:id="@+id/fecha"
         android:layout_width="113dp"
         android:layout_height="38dp"
-        android:layout_marginBottom="204dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginTop="40dp"
         android:text="TextView"
         android:textColor="#DF30C8"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/Historialtext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.897"
+        app:layout_constraintHorizontal_bias="0.7"
         app:layout_constraintStart_toEndOf="@+id/userimage"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="243dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/alimentacion" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/caloriasmain"
         android:layout_width="79dp"
         android:layout_height="22dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="TextView"
         android:textColor="@color/textolistados"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
-        app:layout_constraintStart_toEndOf="@+id/historial"
+        app:layout_constraintHorizontal_bias="0.822"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/caloriasTexto" />
 
     <TextView
         android:id="@+id/caloriasTexto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="96dp"
         android:text="Calorias Necesarias"
         android:textColor="@color/colorAccent3"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.577"
+        app:layout_constraintHorizontal_bias="0.841"
         app:layout_constraintStart_toEndOf="@+id/userimage"
         app:layout_constraintTop_toBottomOf="@+id/fecha" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="FitHealth"
+        android:textColor="@color/colorAccent"
+        android:textSize="36sp"
+        android:textStyle="italic"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

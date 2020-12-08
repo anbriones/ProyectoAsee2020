@@ -9,20 +9,20 @@
 
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listadoElemcena"
-            android:layout_width="match_parent"
-            android:layout_height="222dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="92dp"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/escogidoscena"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalcena"
-            app:layout_constraintVertical_bias="0.099"
-            tools:ignore="MissingConstraints" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listadoElemcena"
+        android:layout_width="match_parent"
+        android:layout_height="222dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="92dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/escogidoscena"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalcena"
+        app:layout_constraintVertical_bias="0.099"
+        tools:ignore="MissingConstraints" />
 
 
     <androidx.recyclerview.widget.RecyclerView

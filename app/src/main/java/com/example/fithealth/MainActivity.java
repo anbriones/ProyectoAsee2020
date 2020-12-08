@@ -3,17 +3,18 @@ package com.example.fithealth;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.fithealth.ui.Historialcomidas.Historial;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String KEY_PREF_ALTURA = "alturak";
     public static final String KEY_PREF_PESO = "pesok";
     public static final String KEY_PREF_SEXO = "Sexok";
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -32,11 +34,6 @@ public class MainActivity extends AppCompatActivity {
         Date myDate = new Date();
         String myString = DateFormat.getDateInstance().format(myDate);
         DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.ITALY);
-        try {
-            myDate = df.parse(myString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         TextView textView=findViewById(R.id.fecha);
         textView.setText(myString);
@@ -59,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intentdiario = new Intent(MainActivity.this, Diario.class);
             startActivity(intentdiario);
         });
-
 
     }
 

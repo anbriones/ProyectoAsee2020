@@ -1,11 +1,12 @@
 package com.example.fithealth.ui.desayuno;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,15 +26,16 @@ import com.example.fithealth.datos.model.Alimento;
 import com.example.fithealth.datos.model.AlimentoEnComida;
 import com.example.fithealth.datos.model.AlimentosFinales;
 import com.example.fithealth.datos.model.Comida;
-import com.example.fithealth.datos.roomdatabase.Comidasdatabase;
+import com.example.fithealth.detallesAlimento;
 import com.example.fithealth.ui.FechasActual;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements MyAdapterJson.OnListInteractionListener, AdapterBaseDatos.OnListInteractionListener{
+public class HomeFragment extends Fragment implements MyAdapterJson.OnListInteractionListener,MyAdapterJson.OnListInteractionListenerdetalle, AdapterBaseDatos.OnListInteractionListener{
     private static final String LOG_TAG = HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
 
@@ -46,7 +48,8 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
     private RecyclerView recyclerView2;
     private RecyclerView.LayoutManager layoutManager2;
     private FechasActual fechas=new FechasActual();//Esta clase la he creado para que no haya duplicidad de código, puesto que los otros fragents voy a necesitarla también
-
+    AppContainer appContainer;
+    HomeViewModel mViewModel;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,12 +60,12 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MyAdapterJson(new ArrayList<AlimentosFinales>(), this);
+        mAdapter = new MyAdapterJson(new ArrayList<AlimentosFinales>(), this,this);
         recyclerView.setAdapter(mAdapter);
         HomeViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactoryhome(this.getActivity().getApplicationContext());
-        AppContainer appContainer = ((MyApplication) this.getActivity().getApplication()).appContainer;
+         appContainer = ((MyApplication) this.getActivity().getApplication()).appContainer;
 
-        HomeViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
+         mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
         mViewModel.getMalimentosfinales().observe(this.getActivity(), alimentos -> {
             mAdapter.swap(alimentos);
         });
@@ -78,13 +81,10 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
 
         mViewModel.setfecha(fechas.getf1(),fechas.getf2());
         mViewModel.getMalimentos().observe(this.getActivity(), alimentosdesayuno -> {
-            AppExecutors.getInstance().mainThread().execute(() -> Log.d(LOG_TAG, "Modificada"));
-            mAdapter2.swap(alimentosdesayuno);
+                        mAdapter2.swap(alimentosdesayuno);
         });
 
-
         mViewModel.getMcalorias().observe(this.getActivity(), calorias -> {
-            AppExecutors.getInstance().mainThread().execute(() -> Log.d(LOG_TAG, "calorias nuevas"));
             if (calorias != null) {
                 textcalorias.setText(calorias.toString());
             } else {
@@ -107,24 +107,24 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad);
         Comida.Tipo tipo = Comida.Tipo.valueOf("desayuno");
         Comida comida = new Comida(tipo, mDate);
+        Toast toast1 =
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Se ha añadido "+nombre, Toast.LENGTH_SHORT);
 
-
+        toast1.show();
+        mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                Long id_alim = Comidasdatabase.getInstance(getActivity()).daoAlim().addalimento(aliment);
-                Long id_comida = Comidasdatabase.getInstance(getActivity()).daoComidas().addcomida(comida);
-                AlimentoEnComida alimencomida = new AlimentoEnComida(id_alim, id_comida);
-                Comidasdatabase.getInstance(getActivity()).daoAlimentosEnComida().addalimcomida(alimencomida);
-                getActivity().runOnUiThread(() -> mAdapter2.add(aliment));
+        long  id_alim=  mViewModel.insertarAlimento(aliment);
+        long id_comida= mViewModel.insertarComida(comida);
+        AlimentoEnComida alimencomida = new AlimentoEnComida(id_alim, id_comida);
+        mViewModel.insertarAlimentoenComida(alimencomida);
             }
 
         });
 
-
     }
-
-
 
     @Override
     public void onResume() {
@@ -142,26 +142,24 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
             }
 
     @Override
-    public void onListInteractionBD(long alim) {
-        //   long idalim= alim.getId();
-        String id=Long.toString(alim);
+    public void onListInteractionBD(long alim,String nombre) {
+         mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
+        Toast toast1 =
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Se ha eliminado "+nombre, Toast.LENGTH_SHORT);
+
+        toast1.show();
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                Alimento alimento= Comidasdatabase.getInstance(getActivity()).daoAlim().obteneralimento(alim);
-                getActivity().runOnUiThread(() -> mAdapter2.eliminaralimento(alimento));
-                Comidasdatabase.getInstance(getActivity()).daoAlim().deletealimento(alimento);
 
-                long idcomida=   Comidasdatabase.getInstance(getActivity()).daoComidas().obteneridcomida(alim);
-                List<Comida> comidas =  Comidasdatabase.getInstance(getActivity()).daoComidas().obtenercomidas( idcomida);
-
-                List<AlimentoEnComida> alimencomidas=   Comidasdatabase.getInstance(getActivity()).daoAlimentosEnComida().obteneralimentos(alim,idcomida);
-                for (int i = 0; i < comidas.size(); i++) {
-                    Comidasdatabase.getInstance(getActivity()).daoComidas().deletecomida(comidas.get(i));
-                }
-                for (int i = 0; i < alimencomidas.size(); i++) {
-                    Comidasdatabase.getInstance(getActivity()).daoAlimentosEnComida().deletealimentoencomida(alimencomidas.get(i));
-                }
+                Alimento alimento= mViewModel.obteneralimento(getActivity(),alim);
+                mViewModel.eliminarAlimento(getActivity(),alimento);
+                long idcomida=  mViewModel.obteneridComida(getActivity(),alim);
+                List<Comida> comidas =  mViewModel.obtenercomidas(getActivity(),idcomida);
+                List<AlimentoEnComida> alimencomidas=   mViewModel.obtenerAlimentosEnComida(getActivity(),alim,idcomida);
+                    mViewModel.eliminarcomidas(getActivity(),comidas);
+                   mViewModel.borraralimentosEncomida(getActivity(),alimencomidas);
 
 
 
@@ -172,4 +170,10 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     }
 
+    @Override
+    public void onListInteraction2(AlimentosFinales alim) {
+        Intent intentdetalles = new Intent(this.getActivity(), detallesAlimento.class);
+        intentdetalles.putExtra("alimentos", (Serializable) alim);
+        startActivity(intentdetalles);
+    }
 }

@@ -22,11 +22,11 @@
 
         <FrameLayout
             android:id="@+id/settings"
-            android:layout_width="365dp"
-            android:layout_height="411dp"
+            android:layout_width="383dp"
+            android:layout_height="503dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vistaimagen"
             app:layout_constraintVertical_bias="1.0">
@@ -40,7 +40,7 @@
             android:layout_marginTop="44dp"
             app:layout_constraintBottom_toTopOf="@+id/settings"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.94"
+            app:layout_constraintHorizontal_bias="0.863"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vistaimagen"
             app:layout_constraintVertical_bias="0.0"
@@ -48,15 +48,15 @@
 
         <ImageView
             android:id="@+id/vistaimagen"
-            android:layout_width="310dp"
-            android:layout_height="194dp"
+            android:layout_width="150dp"
+            android:layout_height="129dp"
             android:layout_marginTop="16dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/useradjust" />
+            app:srcCompat="@drawable/usuario" />
 
 
 

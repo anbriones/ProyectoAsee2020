@@ -10,7 +10,9 @@ import androidx.lifecycle.Transformations;
 import com.example.fithealth.AppExecutors;
 import com.example.fithealth.datos.lecturaapi.AlimentosNetworkDataSource;
 import com.example.fithealth.datos.model.Alimento;
+import com.example.fithealth.datos.model.AlimentoEnComida;
 import com.example.fithealth.datos.model.AlimentosFinales;
+import com.example.fithealth.datos.model.Comida;
 import com.example.fithealth.datos.roomdatabase.DaoAlimento;
 import com.example.fithealth.datos.roomdatabase.DaoAlimentojson;
 import com.example.fithealth.datos.roomdatabase.DaoAlimentosEnComida;
@@ -26,17 +28,13 @@ public class AlimentoRepository {
     private static AlimentoRepository sInstance;
     private final DaoAlimentojson mAlimjsonDao;
     private final DaoAlimento mAlimentos;
+    private final DaoComidas mComidas;
+    private final DaoAlimentosEnComida  mAlimentosEnComidas;
     private final AlimentosNetworkDataSource mAlimNetworkDataSource;
 
     private final AppExecutors mExecutors = AppExecutors.getInstance();
     private final MutableLiveData<Long> userFilterLiveData1 = new MutableLiveData<>();
     private final MutableLiveData<Long> userFilterLiveData2 = new MutableLiveData<>();
-    private final MutableLiveData<Integer> calorias = new MutableLiveData<>();
-
-
-
-    private List<Alimento> alimentos;
-
 
     private static final long MIN_TIME_FROM_LAST_FETCH_MILLIS = 30000;
 
@@ -44,12 +42,11 @@ public class AlimentoRepository {
         this.mAlimjsonDao = mAlimjsonDao;
         this.mAlimNetworkDataSource = mAlimNetworkDataSource;
         this.mAlimentos = daoAlim;
-
-
+        this.mComidas=daoComida;
+        this.mAlimentosEnComidas= daoAlimentosEnComida;
         doFetchAlimentos();
-        // LiveData that fetches repos from network
+        // LiveData that fetches alimentosjson from network
         LiveData<AlimentosFinales[]> networkData = this.mAlimNetworkDataSource.getCurrentAlimentosfinales();
-        //   LiveData<List<Alimento>> alimentos = this.mAlimentos.getAllfechalivedata(fechaactual(),fechaactualmas1());
         // As long as the repository exists, observe the network LiveData.
         // If that LiveData changes, update the database.
         networkData.observeForever(newAlimentosFromNetwork -> {
@@ -230,6 +227,49 @@ public  LiveData<Integer> getcaloriastotales(){
         });
     }
 
+
+    public long   insertarAlimento(Alimento alimento){
+        return  mAlimentos.addalimento(alimento);
+    }
+
+    public long   insertarComida(Comida comida){
+        return  mComidas.addcomida(comida);
+    }
+
+    public long   insertarAlimentoenComida(AlimentoEnComida alimcomida){
+        return  mAlimentosEnComidas.addalimcomida(alimcomida);
+    }
+
+    public Alimento   obteneralimento(long idAlimento){
+        return  mAlimentos.obteneralimento(idAlimento);
+    }
+
+    public void eliminarAlimento(Alimento alim ){
+        mAlimentos.deletealimento(alim);
+    }
+
+    public long obteneridComida(long id_alim){
+        return mComidas.obteneridcomida(id_alim);
+    }
+    public List<Comida> obtenercomidas(long idcomidas){//busco las comidas que estan en alimentosencomida
+        return mComidas.obtenercomidas(idcomidas);
+    }
+    public void eliminarcomidas(List<Comida> listcomidas){
+        for (int j = 0; j <listcomidas.size() ; j++) {
+            mComidas.deletecomida(listcomidas.get(j));
+        }
+}
+
+public List<AlimentoEnComida> obtenerAlimentosEnComida(long id_alim,long id_comida){
+    return mAlimentosEnComidas.obteneralimentos(id_alim,id_comida);
+}
+    public void borraralimentosEncomida(List<AlimentoEnComida> alimentosencomida){
+
+                for (int i = 0; i < alimentosencomida.size(); i++) {
+                mAlimentosEnComidas.deletealimentoencomida(alimentosencomida.get(i));
+                }
+
+    }
 
 }
 

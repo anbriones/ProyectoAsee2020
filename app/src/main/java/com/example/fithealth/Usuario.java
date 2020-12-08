@@ -1,36 +1,24 @@
 
 
 package com.example.fithealth;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.database.Cursor;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-        import android.net.Uri;
-        import android.os.Bundle;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-        import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.preference.PreferenceFragmentCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -65,12 +53,15 @@ public class Usuario extends AppCompatActivity  {
         buttonLoadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent i = new Intent(
+
+                Intent intent = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                i.setType("image/");
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
+                intent.setType("image/*");
+                startActivityForResult(
+                        Intent.createChooser(intent, "Select File"),
+                        RESULT_LOAD_IMAGE);
+                  }
         });
     }
 
@@ -79,7 +70,6 @@ public class Usuario extends AppCompatActivity  {
 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-
             Uri selectedImage = data.getData();
             imageView.setImageURI(selectedImage);
 
@@ -88,15 +78,20 @@ public class Usuario extends AppCompatActivity  {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            imageView.buildDrawingCache();
+            Bitmap bm = imageView.getDrawingCache();
+
+            MediaStore.Images.Media.insertImage(getContentResolver(), bm, "Imagen user", "imagen del usuario ");
+
         }
-        imageView.buildDrawingCache();
-        Bitmap bm=imageView.getDrawingCache();
+        else{
+            Toast toast1 =
+                    Toast.makeText(this,
+                            "estoy en user", Toast.LENGTH_SHORT);
 
-
-
-        MediaStore.Images.Media.insertImage(getContentResolver(), bm, "Imagen user" , "imagen del usuario ");
-
-
+            toast1.show();
+        }
     }
 
     private File createImageFile() throws IOException {

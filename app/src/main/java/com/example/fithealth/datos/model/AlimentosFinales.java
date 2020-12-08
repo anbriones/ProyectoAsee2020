@@ -9,8 +9,10 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity(tableName="alimentojson")
-public class AlimentosFinales {
+public class AlimentosFinales implements Serializable {
 
 
     @SerializedName("nombreprod")
@@ -35,12 +37,34 @@ public class AlimentosFinales {
     @Expose
     @ColumnInfo(name = "proteinas")
     private Double proteinas;
-    @SerializedName("hidratosdecarbono")
+    @SerializedName("hidratos")
     @Expose
-    @ColumnInfo(name = "hidratosdecarbono")
-    private Integer hidratosDeCarbono;
+    @ColumnInfo(name = "hidratos")
+    private Double hidratos;
+    @SerializedName("urlimagen")
+    @Expose
+    @ColumnInfo(name = "urlimagen")
+    private String urlimagen;
+    @SerializedName("tipo")
+    @Expose
+    @ColumnInfo(name = "tipo")
+    private String tipo;
 
+    public String getTipo() {
+        return tipo;
+    }
 
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getUrlimagen() {
+        return urlimagen;
+    }
+
+    public void setUrlimagen(String urlimagen) {
+        this.urlimagen = urlimagen;
+    }
 
     public String getNombreprod() {
         return nombreprod;
@@ -82,12 +106,11 @@ public class AlimentosFinales {
         this.proteinas = proteinas;
     }
 
-    public Integer getHidratosDeCarbono() {
-        return hidratosDeCarbono;
+    public Double getHidratos() {
+        return hidratos;
     }
 
-    public void setHidratosDeCarbono(Integer hidratosDeCarbono) {
-        this.hidratosDeCarbono = hidratosDeCarbono;
+    public void setHidratos(Double hidratos) {
+        this.hidratos = hidratos;
     }
-
 }

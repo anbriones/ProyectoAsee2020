@@ -62,8 +62,8 @@ public class Historial extends AppCompatActivity {
            }
         });
 
-        HistorialViewModel mViewModel2 = new ViewModelProvider(this, appContainer.factoryhistorial).get(HistorialViewModel.class);
-        mViewModel2.getCalorias().observe(this, calorias -> {
+
+        mViewModel.getCalorias().observe(this, calorias -> {
                     if (calorias != null) {
                         text.setText(calorias.toString());
                         textcalorias.setText("calorias");
@@ -114,9 +114,7 @@ public class Historial extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        //Comidasdatabase.getInstance(this).close();
         super.onDestroy();
-
     }
 
     }
