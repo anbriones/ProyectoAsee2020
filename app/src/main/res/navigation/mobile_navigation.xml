@@ -31,6 +31,10 @@
         android:id="@+id/cena"
         android:name="com.example.fithealth.ui.cena.CenaFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_comidas" />
+        tools:layout="@layout/fragment_comidas" >
+        <action
+            android:id="@+id/action_cena_to_desayuno"
+            app:destination="@id/desayuno" />
+    </fragment>
 
 </navigation>

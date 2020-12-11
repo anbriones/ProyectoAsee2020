@@ -94,7 +94,8 @@
     </string>
     <string name="action_settings">Historico de comidas</string>
     <string name="title_activity_settings">Historico de comidas</string>
-
+    <string name="action_detalle">Detalles de alimento</string>
+    <string name="title_detalle">Detalles de Alimento</string>
     <!-- Preference Titles -->
     <string name="datos">Datos personales</string>
     <string name="sync_header">Sync</string>

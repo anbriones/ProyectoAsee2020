@@ -4,34 +4,38 @@ package com.example.fithealth;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 public class Usuario extends AppCompatActivity  {
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
     public static int RESULT_LOAD_IMAGE = 1;
+
+
     ImageView imageView;
     public static final String KEY_PREF_ALTURA = "alturak";
     public static final String KEY_PREF_PESO = "pesok";
     public static final String KEY_PREF_SEXO = "Sexok";
-
-
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+     Bitmap bitmap;
+    File imagencorrecta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,74 +52,93 @@ public class Usuario extends AppCompatActivity  {
         }
 
         imageView = (ImageView) findViewById(R.id.vistaimagen);
+         File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File directory = new File(path + "/imagenes fithealth");
+
+            if (directory.exists()) {
+
+            File files[] = directory.listFiles();
+            if (files.length >= 1) {
+                String numCadena = String.valueOf(files.length);
+
+                if (files != null && files.length >= 1) {
+                    for (int i = 0; i < files.length; i++) {
+                        if (i == (files.length) - 1) {
+                            imagencorrecta = files[i];
+                        }
+                    }
+                }
+                String filePath = imagencorrecta.getAbsolutePath();
+                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+
 
         ImageButton buttonLoadImage = findViewById(R.id.botonimagen);
         buttonLoadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                    Intent i = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                Intent intent = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-                startActivityForResult(
-                        Intent.createChooser(intent, "Select File"),
-                        RESULT_LOAD_IMAGE);
-                  }
-        });
-    }
+                    startActivityForResult(i, RESULT_LOAD_IMAGE);
+                }
+            });
+        }
+
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             imageView.setImageURI(selectedImage);
 
+            bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            saveImage(bitmap);
+
+        }
+    }
+
+
+
+
+    private void saveImage(Bitmap finalBitmap) {
+
+            File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File myDir = new File(path + "/imagenes fithealth");
+            if (!myDir.exists()) {
+                myDir.mkdirs();
+            }
+            String imageName = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+
+            String fname = "Image-" + imageName + ".jpg";
+            File file = new File(myDir, fname);
+            if (file.exists())
+                file.delete();
             try {
-                createImageFile();
-            } catch (IOException e) {
+                FileOutputStream out = new FileOutputStream(file);
+                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            imageView.buildDrawingCache();
-            Bitmap bm = imageView.getDrawingCache();
-
-            MediaStore.Images.Media.insertImage(getContentResolver(), bm, "Imagen user", "imagen del usuario ");
-
         }
-        else{
-            Toast toast1 =
-                    Toast.makeText(this,
-                            "estoy en user", Toast.LENGTH_SHORT);
-
-            toast1.show();
-        }
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        String currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
 
 
     @Override
     public void onResume() {
         super.onResume();
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

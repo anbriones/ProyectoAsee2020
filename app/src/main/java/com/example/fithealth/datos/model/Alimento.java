@@ -35,6 +35,12 @@ public class Alimento {
 
     }
 
+    public Alimento(){
+        this.nombre=" ";
+        this.gramos=0;
+        this.calorias=0;
+        this.unidad="g";
+    }
     public long getId() {return id;    }
 
     public void setId(long id) { this.id = id;   }

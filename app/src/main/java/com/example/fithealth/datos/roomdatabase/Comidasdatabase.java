@@ -12,7 +12,7 @@ import com.example.fithealth.datos.model.AlimentosFinales;
 import com.example.fithealth.datos.model.Comida;
 
 
-@Database(entities = {Alimento.class, Comida.class, AlimentoEnComida.class, AlimentosFinales.class}, version = 1, exportSchema = false)
+@Database(entities = {Alimento.class, Comida.class, AlimentoEnComida.class, AlimentosFinales.class}, version = 2, exportSchema = false)
 public abstract class Comidasdatabase extends RoomDatabase {
     private static Comidasdatabase instance;
 

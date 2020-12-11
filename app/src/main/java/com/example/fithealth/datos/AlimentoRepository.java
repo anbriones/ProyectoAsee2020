@@ -51,7 +51,7 @@ public class AlimentoRepository {
         // If that LiveData changes, update the database.
         networkData.observeForever(newAlimentosFromNetwork -> {
             mExecutors.diskIO().execute(() -> {
-                // Insert our new repos into local database
+                // Insert our new alimentos into local database
                 mAlimjsonDao.insertarAlimento(Arrays.asList(newAlimentosFromNetwork));
                 Log.d(LOG_TAG, "New values inserted in Room");
             });
@@ -123,153 +123,70 @@ public  LiveData<Integer> getcaloriastotales(){
         });
     }
 
-    /*
-     *
-     * *MÉTODOS UTILIZADOS EN HOME FRAGMENT
-     *
-     */
-    public  LiveData<Integer> getcaloriastotalescomidas(){
+//Métodos utilizados en fragment desayuno,comida y cena
+    public  LiveData<Integer> getcaloriastotalescomidas(String tipo){
         return Transformations.switchMap(userFilterLiveData1, new Function<Long, LiveData<Integer>>() {
             @Override
             public LiveData<Integer> apply(Long input) {
                 return Transformations.switchMap(userFilterLiveData2, new Function<Long, LiveData<Integer>>() {
                     @Override
                     public LiveData<Integer> apply(Long input2) {
-                        return mAlimentos.getcaloriastotalescomidas("desayuno",input, input2);
+                        return mAlimentos.getcaloriastotalescomidas(tipo,input, input2);
                     }
                 });
             }
         });
-
     }
 
-    public LiveData<List<Alimento>> getcurrentalimentosconsumidosdesayuno() {
+    public LiveData<List<Alimento>> getcurrentalimentosconsumidos(String tipo) {
         return Transformations.switchMap(userFilterLiveData1, new Function<Long, LiveData<List<Alimento>>>() {
             @Override
             public LiveData<List<Alimento>> apply(Long input) {
                 return Transformations.switchMap(userFilterLiveData2, new Function<Long, LiveData<List<Alimento>>>() {
                     @Override
                     public LiveData<List<Alimento>> apply(Long input2) {
-                        return mAlimentos.getAlldiariascomidas("desayuno",input, input2);
+                        return mAlimentos.getAlldiariascomidas(tipo,input, input2);
                     }
                 });
             }
         });
     }
 
-    /*
-     *
-     * *MÉTODOS UTILIZADOS EN COMIDA FRAGMENT
-     *
-     */
-    public  LiveData<Integer> getcaloriastotalescomidascomida(){
-        return Transformations.switchMap(userFilterLiveData1, new Function<Long, LiveData<Integer>>() {
+
+    public void insertaralimentos(Alimento aliment,Comida comida){
+        mExecutors.diskIO().execute(new Runnable() {
             @Override
-            public LiveData<Integer> apply(Long input) {
-                return Transformations.switchMap(userFilterLiveData2, new Function<Long, LiveData<Integer>>() {
-                    @Override
-                    public LiveData<Integer> apply(Long input2) {
-                        return mAlimentos.getcaloriastotalescomidas("comida",input, input2);
-                    }
-                });
+            public void run() {
+                long  id_alim=  mAlimentos.addalimento(aliment);
+                long id_comida= mComidas.addcomida(comida);
+                AlimentoEnComida alimencomida = new AlimentoEnComida(id_alim, id_comida);
+                mAlimentosEnComidas.addalimcomida(alimencomida);
             }
-        });
 
+    });
     }
 
-    public LiveData<List<Alimento>> getcurrentalimentosconsumidoscomida() {
-        return Transformations.switchMap(userFilterLiveData1, new Function<Long, LiveData<List<Alimento>>>() {
+    public void eliminaralimentos(long id_alim){
+        mExecutors.diskIO().execute(new Runnable() {
             @Override
-            public LiveData<List<Alimento>> apply(Long input) {
-                return Transformations.switchMap(userFilterLiveData2, new Function<Long, LiveData<List<Alimento>>>() {
-                    @Override
-                    public LiveData<List<Alimento>> apply(Long input2) {
-                        return mAlimentos.getAlldiariascomidas("comida",input, input2);
-                    }
-                });
-            }
-        });
-    }
-
-
-
-    /*
-     *
-     * *MÉTODOS UTILIZADOS EN CENA FRAGMENT
-     *
-     */
-    public  LiveData<Integer> getcaloriastotalescomidascena(){
-        return Transformations.switchMap(userFilterLiveData1, new Function<Long, LiveData<Integer>>() {
-            @Override
-            public LiveData<Integer> apply(Long input) {
-                return Transformations.switchMap(userFilterLiveData2, new Function<Long, LiveData<Integer>>() {
-                    @Override
-                    public LiveData<Integer> apply(Long input2) {
-                        return mAlimentos.getcaloriastotalescomidas("cena",input, input2);
-                    }
-                });
-            }
-        });
-
-    }
-
-    public LiveData<List<Alimento>> getcurrentalimentosconsumidoscena() {
-        return Transformations.switchMap(userFilterLiveData1, new Function<Long, LiveData<List<Alimento>>>() {
-            @Override
-            public LiveData<List<Alimento>> apply(Long input) {
-                return Transformations.switchMap(userFilterLiveData2, new Function<Long, LiveData<List<Alimento>>>() {
-                    @Override
-                    public LiveData<List<Alimento>> apply(Long input2) {
-                        return mAlimentos.getAlldiariascomidas("cena",input, input2);
-                    }
-                });
-            }
-        });
-    }
-
-
-    public long   insertarAlimento(Alimento alimento){
-        return  mAlimentos.addalimento(alimento);
-    }
-
-    public long   insertarComida(Comida comida){
-        return  mComidas.addcomida(comida);
-    }
-
-    public long   insertarAlimentoenComida(AlimentoEnComida alimcomida){
-        return  mAlimentosEnComidas.addalimcomida(alimcomida);
-    }
-
-    public Alimento   obteneralimento(long idAlimento){
-        return  mAlimentos.obteneralimento(idAlimento);
-    }
-
-    public void eliminarAlimento(Alimento alim ){
-        mAlimentos.deletealimento(alim);
-    }
-
-    public long obteneridComida(long id_alim){
-        return mComidas.obteneridcomida(id_alim);
-    }
-    public List<Comida> obtenercomidas(long idcomidas){//busco las comidas que estan en alimentosencomida
-        return mComidas.obtenercomidas(idcomidas);
-    }
-    public void eliminarcomidas(List<Comida> listcomidas){
-        for (int j = 0; j <listcomidas.size() ; j++) {
-            mComidas.deletecomida(listcomidas.get(j));
-        }
-}
-
-public List<AlimentoEnComida> obtenerAlimentosEnComida(long id_alim,long id_comida){
-    return mAlimentosEnComidas.obteneralimentos(id_alim,id_comida);
-}
-    public void borraralimentosEncomida(List<AlimentoEnComida> alimentosencomida){
-
-                for (int i = 0; i < alimentosencomida.size(); i++) {
-                mAlimentosEnComidas.deletealimentoencomida(alimentosencomida.get(i));
+            public void run() {
+                Alimento alimento= mAlimentos.obteneralimento(id_alim);
+                mAlimentos.deletealimento(alimento);
+                long idcomida=  mComidas.obteneridcomida(id_alim);
+                List<Comida> comidas =  mComidas.obtenercomidas(idcomida);
+                List<AlimentoEnComida> alimencomidas=   mAlimentosEnComidas.obteneralimentos(id_alim,idcomida);
+                for (int j = 0; j <comidas.size() ; j++) {
+                    mComidas.deletecomida(comidas.get(j));
+                }
+                for (int j = 0; j <comidas.size() ; j++) {
+                    mAlimentosEnComidas.deletealimentoencomida(alimencomidas.get(j));
                 }
 
+
+            }
+        });
     }
+
 
 }
 

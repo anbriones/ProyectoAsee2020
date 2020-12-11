@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +36,12 @@ public class Historial extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Para que no se pueda voltear
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historial);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         TextView text = Historial.this.findViewById(R.id.totales);
         TextView textcalorias = Historial.this.findViewById(R.id.caloriastotales);
 
@@ -54,25 +61,24 @@ public class Historial extends AppCompatActivity {
         HistorialViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryhistorial).get(HistorialViewModel.class);
         mViewModel.getMalimentosfinales().observe(this, alimentos -> {
             adapter.swap(alimentos);
-            AppExecutors.getInstance().mainThread().execute(() -> Log.d(LOG_TAG, "alimentos de fecha"+alimentos.size()));
-           if(alimentos!=null)
-            recyclerView2.setVisibility(View.VISIBLE);
-           else{
-               recyclerView2.setVisibility(View.INVISIBLE);
-           }
+            AppExecutors.getInstance().mainThread().execute(() -> Log.d(LOG_TAG, "alimentos de fecha" + alimentos.size()));
+            if (alimentos != null)
+                recyclerView2.setVisibility(View.VISIBLE);
+            else {
+                recyclerView2.setVisibility(View.INVISIBLE);
+            }
         });
 
 
         mViewModel.getCalorias().observe(this, calorias -> {
-                    if (calorias != null) {
-                        text.setText(calorias.toString());
-                        textcalorias.setText("calorias");
-                    }
-                    else{
-                        text.setText(" ");
-                        textcalorias.setText(" ");
-                    }
-                });
+            if (calorias != null) {
+                text.setText(calorias.toString());
+                textcalorias.setText("calorias");
+            } else {
+                text.setText(" ");
+                textcalorias.setText(" ");
+            }
+        });
 
 
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendario);
@@ -81,13 +87,12 @@ public class Historial extends AppCompatActivity {
             @SuppressLint("WrongConstant")
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-           int day=dayOfMonth+1;
-               GregorianCalendar gc = new GregorianCalendar(year,month,dayOfMonth);
-                GregorianCalendar gc2 = new GregorianCalendar(year,month,day);
+                int day = dayOfMonth + 1;
+                GregorianCalendar gc = new GregorianCalendar(year, month, dayOfMonth);
+                GregorianCalendar gc2 = new GregorianCalendar(year, month, day);
                 long timeStamp = gc.getTimeInMillis();
                 long timeStamp2 = gc2.getTimeInMillis();
-
-               mViewModel.setfecha(timeStamp,timeStamp2);
+                mViewModel.setfecha(timeStamp, timeStamp2);
 
             }
         });
@@ -107,9 +112,6 @@ public class Historial extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
-        // ALTERNATIVE: Save all ToDoItems
-
     }
 
     @Override
@@ -117,8 +119,11 @@ public class Historial extends AppCompatActivity {
         super.onDestroy();
     }
 
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
-
-
-
+}

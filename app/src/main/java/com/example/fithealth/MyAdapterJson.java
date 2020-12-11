@@ -60,7 +60,7 @@ public class MyAdapterJson extends RecyclerView.Adapter<MyAdapterJson.MyViewHold
             mTextView4 = v.findViewById(R.id.unidad);
             mbutonmas = v.findViewById(R.id.mas);
             mbotonmenos= v.findViewById(R.id.menos);
-            maniadir= v.findViewById(R.id.aniadir);
+            maniadir= v.findViewById(R.id.Añadir);
 
 
         }

@@ -13,9 +13,6 @@ public class ajustesusuario extends PreferenceFragmentCompat {
     public static  final String KEY_PREF_SEXO="Sexok";
 
 
-
-   
-
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
@@ -27,8 +24,6 @@ public class ajustesusuario extends PreferenceFragmentCompat {
     public void onResume() {
         super.onResume();
         Context context = getActivity();
-
-
     }
 
 

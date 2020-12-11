@@ -16,11 +16,13 @@ public class AppContainer {
 
         private Comidasdatabase database;
         private AlimentosNetworkDataSource networkDataSource;
+        //Objetos que se necesitan para la ejecución
         public AlimentoRepository repository;
         public HomeViewModelFactory factoryhome;
         public ComidaViewModelFactory factorycomida;
         public CenaViewModelFactory factorycena;
         public HistorialViewModelFactory factoryhistorial;
+
 
         public AppContainer(Context context){
             database = Comidasdatabase.getInstance(context);

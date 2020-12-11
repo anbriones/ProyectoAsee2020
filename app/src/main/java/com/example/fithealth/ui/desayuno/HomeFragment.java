@@ -16,14 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fithealth.AdapterBaseDatos;
 import com.example.fithealth.AppContainer;
-import com.example.fithealth.AppExecutors;
 import com.example.fithealth.InjectorUtils;
 import com.example.fithealth.MyAdapterJson;
 import com.example.fithealth.MyApplication;
 import com.example.fithealth.R;
 import com.example.fithealth.datos.AlimentoRepository;
 import com.example.fithealth.datos.model.Alimento;
-import com.example.fithealth.datos.model.AlimentoEnComida;
 import com.example.fithealth.datos.model.AlimentosFinales;
 import com.example.fithealth.datos.model.Comida;
 import com.example.fithealth.detallesAlimento;
@@ -33,7 +31,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class HomeFragment extends Fragment implements MyAdapterJson.OnListInteractionListener,MyAdapterJson.OnListInteractionListenerdetalle, AdapterBaseDatos.OnListInteractionListener{
     private static final String LOG_TAG = HomeFragment.class.getSimpleName();
@@ -54,6 +51,8 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_comidas, container, false);
+
+
         TextView textcalorias = root.findViewById(R.id.totalcena);
        recyclerView = (RecyclerView) root.findViewById(R.id.listadoElemcena);
         assert (recyclerView) != null;
@@ -63,9 +62,8 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         mAdapter = new MyAdapterJson(new ArrayList<AlimentosFinales>(), this,this);
         recyclerView.setAdapter(mAdapter);
         HomeViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactoryhome(this.getActivity().getApplicationContext());
-         appContainer = ((MyApplication) this.getActivity().getApplication()).appContainer;
-
-         mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
+        appContainer = ((MyApplication) this.getActivity().getApplication()).appContainer;
+        mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
         mViewModel.getMalimentosfinales().observe(this.getActivity(), alimentos -> {
             mAdapter.swap(alimentos);
         });
@@ -91,6 +89,8 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
                 textcalorias.setText("0 ");
             }
         });
+
+
             return root;
         }
 
@@ -107,22 +107,12 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         Alimento aliment = new Alimento(nombre, calorias, cantidad, unidad);
         Comida.Tipo tipo = Comida.Tipo.valueOf("desayuno");
         Comida comida = new Comida(tipo, mDate);
-        Toast toast1 =
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Se ha añadido "+nombre, Toast.LENGTH_SHORT);
 
-        toast1.show();
         mViewModel = new ViewModelProvider(this, appContainer.factoryhome).get(HomeViewModel.class);
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-        long  id_alim=  mViewModel.insertarAlimento(aliment);
-        long id_comida= mViewModel.insertarComida(comida);
-        AlimentoEnComida alimencomida = new AlimentoEnComida(id_alim, id_comida);
-        mViewModel.insertarAlimentoenComida(alimencomida);
-            }
 
-        });
+        mViewModel.insertarAlimentos(aliment,comida);
+
+
 
     }
 
@@ -147,24 +137,8 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         Toast toast1 =
                 Toast.makeText(getActivity().getApplicationContext(),
                         "Se ha eliminado "+nombre, Toast.LENGTH_SHORT);
-
         toast1.show();
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-
-                Alimento alimento= mViewModel.obteneralimento(getActivity(),alim);
-                mViewModel.eliminarAlimento(getActivity(),alimento);
-                long idcomida=  mViewModel.obteneridComida(getActivity(),alim);
-                List<Comida> comidas =  mViewModel.obtenercomidas(getActivity(),idcomida);
-                List<AlimentoEnComida> alimencomidas=   mViewModel.obtenerAlimentosEnComida(getActivity(),alim,idcomida);
-                    mViewModel.eliminarcomidas(getActivity(),comidas);
-                   mViewModel.borraralimentosEncomida(getActivity(),alimencomidas);
-
-
-
-            }
-        });
+        mViewModel.eliminarAlimentos(alim);
 
 
 
@@ -176,4 +150,5 @@ public class HomeFragment extends Fragment implements MyAdapterJson.OnListIntera
         intentdetalles.putExtra("alimentos", (Serializable) alim);
         startActivity(intentdetalles);
     }
+
 }

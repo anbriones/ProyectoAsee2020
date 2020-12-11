@@ -88,14 +88,14 @@
             android:background="@drawable/menos"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/aniadir"
+            app:layout_constraintEnd_toStartOf="@+id/Añadir"
             app:layout_constraintHorizontal_bias="0.325"
             app:layout_constraintStart_toEndOf="@+id/mas"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.035" />
 
         <Button
-            android:id="@+id/aniadir"
+            android:id="@+id/Añadir"
             android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"

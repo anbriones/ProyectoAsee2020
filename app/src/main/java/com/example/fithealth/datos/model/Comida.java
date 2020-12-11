@@ -2,6 +2,7 @@ package com.example.fithealth.datos.model;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -10,7 +11,8 @@ import java.util.Date;
 import java.util.Locale;
 
 
-@Entity(tableName = "comida")
+@Entity(tableName = "comida",indices = {@Index(value =
+        {"date"}, unique = true)})
 public class Comida {
     @Ignore
     public final static String ID = "id";
@@ -27,7 +29,7 @@ public class Comida {
     private long id;
     @TypeConverters(tipoConverter.class)
     private Tipo tipo= Tipo.desayuno; //Desayuno comida  cena o que se la cree el usuario
-    @TypeConverters(DateConverter.class)
+       @TypeConverters(DateConverter.class)
     private Date date=new Date();
 
     public Comida(Tipo tipo, Date date) {

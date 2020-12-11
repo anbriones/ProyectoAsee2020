@@ -27,6 +27,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
+            android:negativeButtonText="Aceptar"
             app:defaultValue="Femenino"
             app:entries="@array/Sexo"
             app:entryValues="@array/Sexo"

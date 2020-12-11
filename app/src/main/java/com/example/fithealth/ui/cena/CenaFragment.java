@@ -1,5 +1,6 @@
 package com.example.fithealth.ui.cena;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,22 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fithealth.AdapterBaseDatos;
 import com.example.fithealth.AppContainer;
-import com.example.fithealth.AppExecutors;
 import com.example.fithealth.InjectorUtils;
 import com.example.fithealth.MyAdapterJson;
 import com.example.fithealth.MyApplication;
 import com.example.fithealth.R;
 import com.example.fithealth.datos.AlimentoRepository;
 import com.example.fithealth.datos.model.Alimento;
-import com.example.fithealth.datos.model.AlimentoEnComida;
 import com.example.fithealth.datos.model.AlimentosFinales;
 import com.example.fithealth.datos.model.Comida;
+import com.example.fithealth.detallesAlimento;
 import com.example.fithealth.ui.FechasActual;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class CenaFragment extends Fragment implements MyAdapterJson.OnListInteractionListener,MyAdapterJson.OnListInteractionListenerdetalle, AdapterBaseDatos.OnListInteractionListener {
     private CenaViewModel cenaViewModel;
@@ -104,7 +104,6 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     @Override
     public void onListInteraction(String nombre, Integer calorias, Integer cantidad, String unidad) {
-
         Date mDate = new Date();
         mDate = new Date(mDate.getTime());
         Calendar c = Calendar.getInstance();
@@ -117,20 +116,10 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
         Toast toast1 =
                 Toast.makeText(getActivity().getApplicationContext(),
                         "Se ha añadido "+nombre, Toast.LENGTH_SHORT);
-
         toast1.show();
 
         mViewModel = new ViewModelProvider(this, appContainer.factorycena).get(CenaViewModel.class);
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                long  id_alim=  mViewModel.insertarAlimento(getActivity(),aliment);
-                long id_comida= mViewModel.insertarComida(getActivity(),comida);
-                AlimentoEnComida alimencomida = new AlimentoEnComida(id_alim, id_comida);
-                mViewModel.insertarAlimentoenComida(getActivity(),alimencomida);
-            }
-
-        });
+        mViewModel.insertarAlimentos(aliment,comida);
     }
 
 
@@ -159,21 +148,7 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
                         "Se ha eliminado "+nombre, Toast.LENGTH_SHORT);
 
         toast1.show();
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                Alimento alimento= mViewModel.obteneralimento(getActivity(),alim);
-                mViewModel.eliminarAlimento(getActivity(),alimento);
-                long idcomida=  mViewModel.obteneridComida(getActivity(),alim);
-                List<Comida> comidas =  mViewModel.obtenercomidas(getActivity(),idcomida);
-                List<AlimentoEnComida> alimencomidas=   mViewModel.obtenerAlimentosEnComida(getActivity(),alim,idcomida);
-                mViewModel.eliminarcomidas(getActivity(),comidas);
-                mViewModel.borraralimentosEncomida(getActivity(),alimencomidas);
-
-
-
-            }
-        });
+        mViewModel.eliminarAlimentos(alim);
 
 
 
@@ -182,6 +157,8 @@ public class CenaFragment extends Fragment implements MyAdapterJson.OnListIntera
 
     @Override
     public void onListInteraction2(AlimentosFinales alim) {
-
+        Intent intentdetalles = new Intent(this.getActivity(), detallesAlimento.class);
+        intentdetalles.putExtra("alimentos", (Serializable) alim);
+        startActivity(intentdetalles);
     }
 }
